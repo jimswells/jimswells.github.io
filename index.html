@@ -92,12 +92,12 @@
 	
 	function masking()
 	{
-		document.title = "The Yellow Band Project";//For domain Masking
-		var link = document.querySelector("link[rel~='icon']");
+		parent.document.title = "The Yellow Band Project";//For domain Masking
+		var link = parent.document.querySelector("link[rel~='icon']");
 		if (!link) {
-			link = document.createElement('link');
+			link = parent.document.createElement('link');
 			link.rel = 'icon';
-			document.head.appendChild(link);
+			parent.document.head.appendChild(link);
 		}
 		link.href = 'https://jimswells.github.io/images/favicon.png';//For domain Masking
 	}
