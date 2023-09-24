@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TheYellowBandProject</title>
-	<!-- <link rel="icon" type="image/png" href="https://jimswells.github.io/images/favicon.png"> -->
+    <title>The Yellow Band Project</title>
+	<link rel="icon" type="image/png" href="https://jimswells.github.io/images/favicon.png">
     <style>
+	
+		@font-face {
+			font-family: myFirstFont;
+			src: url(assets/waltographUI.ttf);
+		}
+
         body {
             margin: 0;
             padding: 0;
             background: #E4F2F8;
 			color:#011122;
-            font-family: Arial, sans-serif;
+            font-family: Tahoma, sans-serif;
         }
 		
 		.bandtext
 		{
+			font-size : 25px;
 			font-weight: bold;
-			font-family: "Waltograph", cursive;
+			//font-family: "Waltograph", cursive;
+			font-family: myFirstFont;
 			white-space: nowrap;
 		}
 		
@@ -37,7 +45,7 @@
         
         .band {
             background-color: #FCFF4B;
-            height: 40px;
+            height: 75px;
 			display: flex;
             justify-content: space-between;
             align-items: center;
@@ -79,7 +87,7 @@
 	<div class="content-container">
     <div class="content">
         <h1>Welcome to The Yellow Band Project</h1>
-        <p>This is a simple responsive HTML page.</p>
+        <p>....</p>
 		
 		<h1>Why</h1>
 		<p>This is why...</p>
@@ -88,49 +96,5 @@
 		<p>Time to carry this forward by Spreading Kindness and Radiating Joy to people you run into</p>
     </div>
 	</div>
-	<script>
-	
-	//function fixGoDaddyMaskingForwarding() {
-  // Get the favicon URL
-  var faviconUrl = "https://jimswells.github.io/images/favicon.png";
-
-  // Create a new XMLHttpRequest object
-  var xhr = new XMLHttpRequest();
-
-  // Set the request method to GET
-  xhr.open("GET", faviconUrl);
-
-  // Send the request
-  xhr.send();
-
-  // Check the response status code
-  if (xhr.status === 200) {
-    // Get the favicon content
-    var faviconContent = xhr.responseText;
-
-    // Create a new Image object
-    var image = new Image();
-
-    // Set the image source to the favicon content
-    image.src = faviconContent;
-
-    // Append the image to the document
-    document.body.appendChild(image);
-  }
-  parent.document.title = "The Yellow Band Project";//For domain Masking
-//}
-	
-	function masking()
-	{
-		parent.document.title = "The Yellow Band Project";//For domain Masking
-		var link = parent.document.querySelector("link[rel~='icon']");
-		if (!link) {
-			link = parent.document.createElement('link');
-			link.rel = 'icon';
-			parent.document.head.appendChild(link);
-		}
-		link.href = 'https://jimswells.github.io/images/favicon.png';//For domain Masking
-	}
-	</script>
 </body>
 </html>
