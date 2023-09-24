@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Yellow Band Project</title>
+    <title>ssThe Yellow Band Project</title>
 	<link rel="icon" type="image/png" href="./images/favicon.png">
     <style>
         body {
@@ -88,5 +88,15 @@
 		<p>Time to carry this forward by Spreading Kindness and Radiating Joy to people you run into</p>
     </div>
 	</div>
+	<script>
+		document.title = "The Yellow Band Project";//For domain Masking
+		var link = document.querySelector("link[rel~='icon']");
+		if (!link) {
+			link = document.createElement('link');
+			link.rel = 'icon';
+			document.head.appendChild(link);
+		}
+		link.href = './images/favicon.png';//For domain Masking
+	</script>
 </body>
 </html>
