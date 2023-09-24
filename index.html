@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page with Yellow Band</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #E4F2F8;
+			color:#011122;
+            font-family: Arial, sans-serif;
+        }
+		
+		.bandtext
+		{
+			font-weight: bold;
+			font-family: "Waltograph", cursive;
+			white-space: nowrap;
+		}
+		
+		.leftband
+		{
+		    padding-left: 20px;
+		}
+		.centerband
+		{
+			color:#FCFF4B;
+		}
+		
+		.rightband
+		{
+		    padding-right: 20px;
+		}
+        
+        .band {
+            background-color: #FCFF4B;
+            height: 40px;
+			display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+		
+		.bandtop {
+			margin-top: 10px;
+            background: linear-gradient(to top, #FCFF4B, #999);
+            height: 5px;
+        }
+		
+		.bandbottom {
+            background: linear-gradient(to bottom, #FCFF4B, #999);
+            height: 8px;
+        }
+		
+		.content-container
+		{
+			display: flex;
+            justify-content: center;
+		}
+		
+		h1
+		{
+            text-align: center;
+		}
+        
+        .content {
+            text-align: left;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+	<div class="bandtop"></div>
+    <div class="band"><div class="bandtext leftband">Spread Kindness</div><div class="bandtext centerband">Owen Wells</div><div class="bandtext rightband">Radiate Joy</div></div>
+	<div class="bandbottom"></div>
+	<div class="content-container">
+    <div class="content">
+        <h1>Welcome to The Yellow Band Project</h1>
+        <p>This is a simple responsive HTML page.</p>
+		
+		<h1>Why</h1>
+		<p>This is why...</p>
+		
+		<h1>What to do now?</h1>
+		<p>Time to carry this forward by Spreading Kindness and Radiating Joy to people you run into</p>
+    </div>
+	</div>
+</body>
+</html>
