@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ssThe Yellow Band Project</title>
-	<link rel="icon" type="image/png" href="./images/favicon.png">
+	<!-- <link rel="icon" type="image/png" href="https://jimswells.github.io/images/favicon.png"> -->
     <style>
         body {
             margin: 0;
@@ -72,7 +72,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="masking()">
 	<div class="bandtop"></div>
     <div class="band"><div class="bandtext leftband">Spread Kindness</div><div class="bandtext centerband">Owen Wells</div><div class="bandtext rightband">Radiate Joy</div></div>
 	<div class="bandbottom"></div>
@@ -89,6 +89,9 @@
     </div>
 	</div>
 	<script>
+	
+	function masking()
+	{
 		document.title = "The Yellow Band Project";//For domain Masking
 		var link = document.querySelector("link[rel~='icon']");
 		if (!link) {
@@ -96,7 +99,8 @@
 			link.rel = 'icon';
 			document.head.appendChild(link);
 		}
-		link.href = './images/favicon.png';//For domain Masking
+		link.href = 'https://jimswells.github.io/images/favicon.png';//For domain Masking
+	}
 	</script>
 </body>
 </html>
