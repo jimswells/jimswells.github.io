@@ -3,12 +3,26 @@
   <meta charset="UTF-8">
   <title>Scavenger hunt</title>
   <style>
+
+    * {
+      user-select: none;
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none;     /* IE10+ */
+    }
+  
+	  @font-face {
+	  font-family: 'MyFont';
+	  src: url('CreatoDisplay-Regular.otf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+  
     body {
-      font-family: sans-serif;
+      font-family: 'MyFont', sans-serif;
       text-align: center;
       padding: 200px 20px 40px;
       box-sizing: border-box;
-	  background:#D7D7D7;
+	  background:#f3f2f2;
     }
     #arrow {
       font-size: 650px;
@@ -35,7 +49,7 @@
     }
     button {
       padding: 10px 20px;
-      font-size: 16px;
+      font-size: 20px;
       margin-top: 20px;
     }
       #banner {
@@ -45,11 +59,18 @@
       width: 100%;
       background-color: #FE7743;
       color: white;
-      padding: 10px 0;
       z-index: 1000;
-      font-size: 30px;
+      font-size: 40px;
+	    box-shadow: 4px 4px 12px rgba(0,0,0,0.6);
     }
-}
+	
+	.showClue {
+	font-size: 40px; padding: 25px 60px; background: linear-gradient(135deg, #FE7743, #ffc371); color: white; border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s;"
+	}
+	
+	.toast{
+	flex-direction: column; display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 85%; background-color: black; color: white; padding: 40px; border-radius: 64px; font-size: 100px; z-index: 1001; text-align: center; align-items: center; justify-content: center; cursor: pointer; overflow-y: auto;"
+	}
 </style>
 <style>
     #loadingOverlay {
@@ -58,7 +79,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #D7D7D7;
+      background: #f3f2f2;
       z-index: 2000;
       display: flex;
       flex-direction: column;
@@ -71,7 +92,7 @@
 </style>
 </head>
 <body>
-  <div id="loadingOverlay">
+  <div id="loadingOverlay"> <!-- dribbble.com/shots/2230092-Adventures -->
   <img src="loading.gif" alt="Loading..." style="width: 100%; height: 37%;">
   <div style="margin-top: -20px; font-size: 75px;">Loading adventure...</div>
 </div>
@@ -94,56 +115,39 @@
   <div class="data"><strong>Distance to waypoint:</strong> <span id="distance">--</span></div>
   <div class="data"><strong>Bearing to waypoint:</strong> <span id="bearing">--</span>° (<span id="bearingDir">--</span>)</div>
   <div class="data"><strong>Your Heading:</strong> <span id="heading">--</span>° (<span id="dir">--</span>)</div>
-  <button onclick="showClue()" style="font-size: 40px; padding: 25px 60px; background: linear-gradient(135deg, #ff5f6d, #ffc371); color: white; border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s;">Show Clue</button>
+  <button onclick="showClue()" class="showClue" >Show Clue</button>
   <div class="data" style="display:none;"><strong>Speed:</strong> <span id="speed">--</span> m/s</div>
   <div id="arrow">👆</div>
-  <div class="lowerdata" id="accuracyRow"><strong>GPS Accuracy:</strong> <span id="accuracy">--</span> m</div>
+  <div class="lowerdata" id="accuracyRow"><strong>GPS Accuracy:</strong> <span id="accuracy">--</span> ft</div>
   <button id="activate">Activate</button>
-  <div id="clueToast" onclick="this.style.display='none'" style="flex-direction: column; display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 85%; background-color: black; color: white; padding: 40px; border-radius: 64px; font-size: 100px; z-index: 1001; text-align: center; align-items: center; justify-content: center; cursor: pointer; overflow-y: auto;"> </div>
+  <div id="clueToast" onclick="this.style.display='none'" class="toast"> </div>
   <script>
-     const hunt = {
-  "title": "Fun Beach Club",
-  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.",
-  "endMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a> for your prize!",
+     const hunt = { 
+  "title": "Fun at home",
+  "startMessage": "Welcome, brave explorer! Your quest begins now. Follow the clues to each waypoint.",
+  "endMessage": "Congratulations! You’ve finished the scavenger hunt!",
   "waypoints": [
     {
-      "lat": 28.369609, 
-      "lon": -81.554932,
-      "startMessage": "",// No start message here because it's the hunt's startMessage
-      "clue": "This thing is always very sad...",
-	  "completed":"false"
+      "lat": 28.56871841547093, 
+      "lon": -81.68813310691341,
+      "foundMessage": "Frist spot",
+      "clue": "Driveway - 1", "completed":"false"
     },
     {
-      "lat": 28.367766,
-      "lon": -81.555623,
-      "startMessage": "It was always being crossed.",//Seems confusing it's the message you get when you are at the last waypoint
-      "clue": "Say cheese!",
-	  "completed":"false"
+      "lat": 28.56861536803582, 
+      "lon": -81.68840088104884,
+      "foundMessage": "Second spot",
+      "clue": "Stupid Tree - 2", "completed":"false"
     },
     {
-      "lat": 28.367065, 
-	  "lon": -81.556241,
-      "startMessage": "Maybe we should get some pictures?",
-      "clue": "This thing can fit 4 people",
-	  "completed":"false"
-    }
-	,
-    {
-      "lat": 28.367563,
-	  "lon":  -81.557825,
-      "startMessage": "Should we go for a ride?",
-      "clue": "Waltz, Tango, Salsa...",
-	  "completed":"false"
-    },
-    {
-      "lat": 28.369541,
-	  "lon": -81.557461,
-      "startMessage": "Should I take mommy dancing?",
-      "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
-	  "completed":"false"
+      "lat": 28.56862466187152, 
+	  "lon": -81.68896641527571,
+      "foundMessage": "",
+      "clue": "Gate - 3", "completed":"false"
     }
   ]
-}
+};
+
     let justCompleted = false;
     let targetLat;
     let targetLon;
@@ -159,16 +163,12 @@
 	
 	function toggleAdmin()
 	{
-		if (intAdminToggle >= 5 )
-		{
-		document.getElementById('banner-buttons').style.display = 'block';
-		intAdminToggle = 0;
-		}
-		else
-		{
-		document.getElementById('banner-buttons').style.display = 'none';
-		intAdminToggle++;
-		}
+		if (intAdminToggle >= 5 ) {
+			document.getElementById('banner-buttons').style.display = 'block';
+			intAdminToggle = 0;
+		} else {
+			document.getElementById('banner-buttons').style.display = 'none';
+      intAdminToggle++; }
 	}
 
     function isIOS() {
@@ -197,7 +197,10 @@
       const bearing = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
 
       // If within 10 feet, mark complete only once
-      if (distance <= 3.048 && !justCompleted) {
+      // 3 ~ 10 feet
+      // 4.5 ~ 15 feet
+      // 6 ~ 20 feet
+      if (distance <= 4.5 && !justCompleted) {
         justCompleted = true;
         completeCurrentWaypoint();
         setTimeout(() => justCompleted = false, 5000);
@@ -248,12 +251,15 @@
             if (currentLat && currentLon) {
               const { distance, bearing } = getDistanceAndBearing(currentLat, currentLon, targetLat, targetLon);
               if (distance >= 1609.34) {
-                document.getElementById('distance').textContent = (distance / 1609.34).toFixed(0) + ' miles';
+                const miles = distance / 1609.34;
+                const formatted = miles < 5 ? miles.toFixed(1) : miles.toFixed(0);
+                document.getElementById('distance').textContent = `${formatted} miles`;
               } else {
-                document.getElementById('distance').textContent = (distance * 3.28084).toFixed(0) + ' feet';
+                const feet = distance * 3.28084;
+                document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
               }
               document.getElementById('bearing').textContent = bearing.toFixed(0);
-                  document.getElementById('bearingDir').textContent = getDirectionText(bearing);
+              document.getElementById('bearingDir').textContent = getDirectionText(bearing);
               updateDisplay(bearing);
             }
           }
@@ -273,11 +279,14 @@
                 if (currentLat && currentLon) {
                   const { distance, bearing } = getDistanceAndBearing(currentLat, currentLon, targetLat, targetLon);
                   if (distance >= 1609.34) {
-                    document.getElementById('distance').textContent = (distance / 1609.34).toFixed(2) + ' miles';
+                    const miles = distance / 1609.34;
+                    const formatted = miles < 5 ? miles.toFixed(1) : miles.toFixed(0);
+                    document.getElementById('distance').textContent = `${formatted} miles`;
                   } else {
-                    document.getElementById('distance').textContent = (distance * 3.28084).toFixed(1) + ' feet';
+                    const feet = distance * 3.28084;
+                    document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
                   }
-                  document.getElementById('bearing').textContent = bearing.toFixed(1);
+                  document.getElementById('bearing').textContent = bearing.toFixed(0);
                   updateDisplay(bearing);
                 }
               }
@@ -294,19 +303,21 @@
           currentLon = pos.coords.longitude;
           document.getElementById('lat').textContent = currentLat.toFixed(6);
           document.getElementById('lon').textContent = currentLon.toFixed(6);
-          const accuracy = pos.coords.accuracy;
+          const accuracyInMeters = pos.coords.accuracy;
+          const accuracyInFeet = accuracyInMeters * 3.28084; // 1 meter = 3.28084 feet
           const accuracyElem = document.getElementById('accuracy');
           const accuracyRow = document.getElementById('accuracyRow');
-          accuracyElem.textContent = accuracy.toFixed(1);
-          if (accuracy < 10) {
+          accuracyElem.textContent = accuracyInFeet.toFixed(0);
+
+          if (accuracyInFeet < 30) {
             accuracyRow.style.color = 'green';
-          } else if (accuracy < 30) {
+          } else if (accuracyInFeet < 100) {
             accuracyRow.style.color = 'orange';
           } else {
             accuracyRow.style.color = 'red';
           }
           document.getElementById('speed').textContent = pos.coords.speed !== null ? pos.coords.speed.toFixed(2) : '0.00';
-		  document.getElementById('loadingOverlay').classList.add('hidden');
+		      document.getElementById('loadingOverlay').classList.add('hidden');
         }, err => {
           alert("Geolocation error: " + err.message);
         }, { enableHighAccuracy: true });
@@ -397,11 +408,11 @@ function completeCurrentWaypoint() {
 	{
 	  hunt.waypoints[waypointIndex].completed = "true";
 	  if (waypointIndex + 1 < hunt.waypoints.length) {
-		waypointIndex++;
 		setWaypointIndex(waypointIndex);
 		targetLat = hunt.waypoints[waypointIndex].lat;
 		targetLon = hunt.waypoints[waypointIndex].lon;
-		toast(hunt.waypoints[waypointIndex].startMessage);
+		toast(hunt.waypoints[waypointIndex].foundMessage);
+		waypointIndex++;
 	  } else {
 		isFinished = true;
 		document.cookie = 'completed=true; path=/; max-age=31536000';
