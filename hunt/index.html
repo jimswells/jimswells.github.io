@@ -1,5 +1,6 @@
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="./resources/favicon.png">
   <meta charset="UTF-8">
   <title>Scavenger hunt</title>
   <style>
@@ -162,28 +163,46 @@
   <audio id="waypointSound" src="./resources/waypoint.mp3" preload="auto"></audio>
   <script>
     // TODO : Load Json from file
-     const hunt = { 
-  "title": "Fun at home",
-  "startMessage": "Welcome, brave explorer! Your quest begins now. Follow the clues to each waypoint.",
-  "endMessage": "Congratulations! You’ve finished the scavenger hunt!",
+     const hunt = {
+  "title": "Staycation Fun",
+  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
+  "endMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a><br>for your prize!",
   "waypoints": [
     {
-      "lat": 28.56871841547093, 
-      "lon": -81.68813310691341,
-      "foundMessage": "Frist spot",
-      "clue": "Driveway - 1", "completed":"false"
+      "lat": 28.369609, 
+      "lon": -81.554932,
+      "foundMessage": "It was always being crossed.",
+      "clue": "This thing is always very sad...",
+	  "completed":"false"
     },
     {
-      "lat": 28.568597546794614,
-      "lon": -81.68860364658259,
-      "foundMessage": "Second spot",
-      "clue": "Stupid Tree - 2", "completed":"false"
+      "lat": 28.367766,
+      "lon": -81.555623,
+      "foundMessage": "Maybe we should get some pictures?",
+      "clue": "Say cheese!",
+	  "completed":"false"
     },
     {
-      "lat": 28.56862466187152, 
-	    "lon": -81.68896641527571,
+      "lat": 28.367065, 
+	  "lon": -81.556241,
+      "foundMessage": "Should we go for a ride?",
+      "clue": "This thing can fit 4 people",
+	  "completed":"false"
+    }
+	,
+    {
+      "lat": 28.367563,
+	  "lon":  -81.557825,
+      "foundMessage": "Should I take mommy dancing?",
+      "clue": "Waltz, Tango, Salsa...",
+	  "completed":"false"
+    },
+    {
+      "lat": 28.369541,
+	  "lon": -81.557461,
       "foundMessage": "",
-      "clue": "Gate - 3", "completed":"false"
+      "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
+	  "completed":"false"
     }
   ]
 };
@@ -503,7 +522,6 @@
     const u = atob(atob('YUhSMGNITTZMeTloY0drdVkyRnNiRzFsWW05MExtTnZiUzkzYUdGMGMyRndjQzV3YUhBL2MyOTFjbU5sUFhkbFlpWndhRzl1WlQwPQ=='));
     const ap = atob(atob('Sm1Gd2FXdGxlVDA9'));
     const url = `${u}${p}&text=${formattedMessage}${ap}${k}`;
-    return;
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
