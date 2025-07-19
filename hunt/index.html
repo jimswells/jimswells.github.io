@@ -198,7 +198,7 @@
 
 	function toggleAdmin()
 	{
-		if (intAdminToggle >= 5 ) 
+		if (intAdminToggle >= 1 ) 
     { document.getElementById('banner-buttons').style.display = 'block'; intAdminToggle = 0; } 
     else { document.getElementById('banner-buttons').style.display = 'none'; intAdminToggle++; }
   }
@@ -398,38 +398,43 @@
     }
     const match = document.cookie.match(/waypointIndex=(\d+)/);
     if (match) {
+      console.log('waypoint index : ' + match[1]);
       return parseInt(match[1]);
     } else {
       //First time start Message
+      sendToLogger(`Started`);
+      console.log('First run');
       setWaypointIndex(0);
       toast(hunt.startMessage);
       return 0;
     }
   })();
 
-  setWaypointDataHeader();
+  setWaypointDataHeader(waypointIndex);
 
   function setWaypointIndex(index) {
     document.cookie = 'waypointIndex=' + index + '; path=/; max-age=31536000';
     currentWaypoint = hunt.waypoints[index];
     targetLat = currentWaypoint.lat;
     targetLon = currentWaypoint.lon;
-    setWaypointDataHeader();
+    console.log('setWaypointIndex : ' + index);
+    setWaypointDataHeader(index);
   }
 
-  function setWaypointDataHeader()
+  function setWaypointDataHeader(index)
   {
-    if (waypointIndex + 1 === hunt.waypoints.length)
+    if (index + 1 === hunt.waypoints.length)
     {//Last waypoint
       document.getElementById('waypoint').textContent = `Last waypoint`;
     }
     else
     {//More to go
-      document.getElementById('waypoint').textContent = `Waypoint ${waypointIndex + 1}  of ${hunt.waypoints.length}`;
+      document.getElementById('waypoint').textContent = `Waypoint ${index + 1}  of ${hunt.waypoints.length}`;
     }
   }
 
   function toast(message) {
+    console.log('Toast message : ' + message);
     const clueToast = document.getElementById('clueToast');
     const clueToastMessage = document.getElementById('clueToastMessage');
     clueToastMessage.innerHTML = message;
@@ -442,10 +447,13 @@
   function showClue() {
     const nextWaypoint = hunt.waypoints[waypointIndex];
     const clueText = hunt.waypoints[waypointIndex].clue || "No more clues available.";
+    sendToLogger(`Clue for waypoint ${waypointIndex + 1}`);
     toast(clueText);
   }    
 
   function completeCurrentWaypoint() {
+    console.log('Waypoint completed : ' + waypointIndex);
+    sendToLogger(`Waypoint ${waypointIndex + 1} completed`);
     currentWaypoint = hunt.waypoints[waypointIndex];
     if (!isFinished)
     {
@@ -462,6 +470,26 @@
       }
     }
   }
+
+  function sendToLogger(message) {
+    // VTJWamRYSnBkSGtnWW5rZ2IySnpaV04xY21sMGVTd2dTU0JyYm05M0xpNHVJSFJvYVhNZ2FYTWdhblZ6ZENCemRYQndiM05sWkNCMGJ5QmlaU0J6YjIxbGRHaHBibWNnWm5WdUlIZHBkR2dnYlhrZ1ptRnRhV3g1TENCa2IyNG5kQ0J5ZFdsdUlHbDBJUT09
+    const formattedMessage = encodeURIComponent(`${hunt.title} : ${message}`);
+    const p = atob(atob('TVRneE16UXdORE13T0RFPQ=='));
+    const k = atob(atob('TlRJNE9UTTFOZz09'));
+    const u = atob(atob('YUhSMGNITTZMeTloY0drdVkyRnNiRzFsWW05MExtTnZiUzkzYUdGMGMyRndjQzV3YUhBL2MyOTFjbU5sUFhkbFlpWndhRzl1WlQwPQ=='));
+    const ap = atob(atob('Sm1Gd2FXdGxlVDA9'));
+    const url = `${u}${p}&text=${formattedMessage}${ap}${k}`;
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        console.log(response.text());
+        return response.text();
+      })
+      .then(data => console.log('Sent:', data))
+      .catch(err => console.error('Error:', err));
+  }
+
 </script>
 </body>
 </html>
