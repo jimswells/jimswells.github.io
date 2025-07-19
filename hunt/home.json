@@ -1,0 +1,25 @@
+{ 
+  "title": "Fun at home",
+  "startMessage": "Welcome, brave explorer! Your quest begins now. Follow the clues to each waypoint.",
+  "endMessage": "Congratulations! You’ve finished the scavenger hunt!",
+  "waypoints": [
+    {
+      "lat": 28.56871841547093, 
+      "lon": -81.68813310691341,
+      "foundMessage": "Frist spot",
+      "clue": "Driveway - 1", "completed":"false"
+    },
+    {
+      "lat": 28.56861536803582, 
+      "lon": -81.68840088104884,
+      "foundMessage": "Second spot",
+      "clue": "Stupid Tree - 2", "completed":"false"
+    },
+    {
+      "lat": 28.56862466187152, 
+	  "lon": -81.68896641527571,
+      "foundMessage": "",
+      "clue": "Gate - 3", "completed":"false"
+    }
+  ]
+}
