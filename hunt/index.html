@@ -154,8 +154,12 @@
   <div id="arrow"><img width="700" height="700" src="./resources/arrow.png"></div>
   <div class="lowerdata" id="accuracyRow"><strong>GPS Accuracy:</strong> <span id="accuracy">--</span> ft</div>
   <button id="activate">Activate</button>
-  <div id="clueToast" onclick="this.style.display='none'" class="toast">
-    <span class="closeToast">X</span><span id="clueToastMessage">X</span></div>
+  <div id="clueToast" onclick="closeToast()" class="toast">
+    <span class="closeToast">X</span><span id="clueToastMessage">X</span>
+  </div>
+  <audio id="clueSound" src="./resources/clue.mp3" preload="auto"></audio>
+  <audio id="finishedSound" src="./resources/finished.mp3" preload="auto"></audio>
+  <audio id="waypointSound" src="./resources/waypoint.mp3" preload="auto"></audio>
   <script>
     // TODO : Load Json from file
      const hunt = { 
@@ -194,6 +198,7 @@
   let currentWaypoint = null;
   let wakeLock = null;
 	let isFinished = false;
+  let isFirstLoad = false;
 	
 	let intAdminToggle = 0;
 
@@ -202,6 +207,17 @@
 		if (intAdminToggle >= 1 ) 
     { document.getElementById('banner-buttons').style.display = 'block'; intAdminToggle = 0; } 
     else { document.getElementById('banner-buttons').style.display = 'none'; intAdminToggle++; }
+  }
+
+  function closeToast()
+  {
+    document.getElementById('clueToast').style.display='none';
+    if (isFirstLoad)
+    {
+      isFirstLoad = false;
+      playFinishedSound();
+    }
+    
   }
 
     function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
@@ -382,6 +398,8 @@
   }
 
 	function displayCompletedWall() {
+    
+    console.log('Display completed wall');
     document.querySelectorAll('body > :not(#banner)').forEach(el => el.style.display = 'none');
     const goodbye = document.createElement('div');
     goodbye.textContent = 'Until next time...';
@@ -389,6 +407,7 @@
     goodbye.style.marginTop = '150px';
     goodbye.style.textAlign = 'center';
     document.body.appendChild(goodbye);
+    playFinishedSound();
 	}
 
   let waypointIndex = (function() {
@@ -405,6 +424,7 @@
       //First time start Message
       sendToLogger(`Started`);
       console.log('First run');
+      isFirstLoad = true;
       setWaypointIndex(0);
       toast(hunt.startMessage);
       return 0;
@@ -450,6 +470,7 @@
     const clueText = hunt.waypoints[waypointIndex].clue || "No more clues available.";
     sendToLogger(`Clue for waypoint ${waypointIndex + 1}`);
     toast(clueText);
+    playClueSound();
   }    
 
   function completeCurrentWaypoint() {
@@ -463,11 +484,13 @@
         toast(hunt.waypoints[waypointIndex].foundMessage);
         waypointIndex++;
         setWaypointIndex(waypointIndex);
+        playWaypointSound();
       } else {
         isFinished = true;
         document.cookie = `completed_${encodeURIComponent(hunt.title)}=true; path=/; max-age=604800`;
         displayCompletedWall();
         toast(hunt.endMessage);
+        playFinishedSound();
       }
     }
   }
@@ -480,7 +503,7 @@
     const u = atob(atob('YUhSMGNITTZMeTloY0drdVkyRnNiRzFsWW05MExtTnZiUzkzYUdGMGMyRndjQzV3YUhBL2MyOTFjbU5sUFhkbFlpWndhRzl1WlQwPQ=='));
     const ap = atob(atob('Sm1Gd2FXdGxlVDA9'));
     const url = `${u}${p}&text=${formattedMessage}${ap}${k}`;
-
+    return;
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -491,6 +514,22 @@
       .catch(err => console.error('Error:', err));
   }
 
+  function playClueSound() {
+    const sound = document.getElementById('clueSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
+  function playFinishedSound() {
+    const sound = document.getElementById('finishedSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
+  function playWaypointSound() {
+    const sound = document.getElementById('waypointSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
 </script>
+
 </body>
 </html>
