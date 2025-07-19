@@ -134,7 +134,7 @@
   <h1 onclick="toggleAdmin()">{{title}}</h1>
 
   <div id="banner-buttons" style="display: none;">
-    <button onclick="document.cookie='completed=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; document.cookie='waypointIndex=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'" style="font-size: 40px; margin-top: 20px;">
+    <button onclick="document.cookie=`completed_${encodeURIComponent(hunt.title)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; document.cookie='waypointIndex=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'" style="font-size: 40px; margin-top: 20px;">
       Reset game
     </button>
     <button onclick="completeCurrentWaypoint()" style="font-size: 40px; margin-top: 20px;">
@@ -157,6 +157,7 @@
   <div id="clueToast" onclick="this.style.display='none'" class="toast">
     <span class="closeToast">X</span><span id="clueToastMessage">X</span></div>
   <script>
+    // TODO : Load Json from file
      const hunt = { 
   "title": "Fun at home",
   "startMessage": "Welcome, brave explorer! Your quest begins now. Follow the clues to each waypoint.",
@@ -230,7 +231,7 @@
       // 3 ~ 10 feet
       // 4.5 ~ 15 feet
       // 6 ~ 20 feet
-      if (distance <= 3 && !justCompleted) {
+      if (distance <= 4.5 && !justCompleted) {
         justCompleted = true;
         completeCurrentWaypoint();
         setTimeout(() => justCompleted = false, 5000);
@@ -391,7 +392,7 @@
 	}
 
   let waypointIndex = (function() {
-    const completedMatch = document.cookie.match(/completed=true/);
+    const completedMatch = document.cookie.match(new RegExp(`(?:^|; )completed_${encodeURIComponent(hunt.title)}=true`));
     if (completedMatch) {
       displayCompletedWall();
       return 0;
@@ -413,7 +414,7 @@
   setWaypointDataHeader(waypointIndex);
 
   function setWaypointIndex(index) {
-    document.cookie = 'waypointIndex=' + index + '; path=/; max-age=31536000';
+    document.cookie = 'waypointIndex=' + index + '; path=/; max-age=604800';
     currentWaypoint = hunt.waypoints[index];
     targetLat = currentWaypoint.lat;
     targetLon = currentWaypoint.lon;
@@ -464,7 +465,7 @@
         setWaypointIndex(waypointIndex);
       } else {
         isFinished = true;
-        document.cookie = 'completed=true; path=/; max-age=31536000';
+        document.cookie = `completed_${encodeURIComponent(hunt.title)}=true; path=/; max-age=604800`;
         displayCompletedWall();
         toast(hunt.endMessage);
       }
