@@ -20,7 +20,6 @@
 
   #activate {
   position: fixed;
-  bottom: 20px; /* or wherever you want it */
   left: 50%;
   transform: translateX(-50%);
   z-index: 3000; /* higher than everything else */
@@ -409,7 +408,7 @@
             accuracyRow.style.color = 'red';
           }
           document.getElementById('speed').textContent = pos.coords.speed !== null ? pos.coords.speed.toFixed(2) : '0.00';
-		      //document.getElementById('loadingOverlay').classList.add('hidden');
+		      document.getElementById('loadingOverlay').classList.add('hidden');
         }, err => {
           alert("Geolocation error: " + err.message);
         }, { enableHighAccuracy: true });
