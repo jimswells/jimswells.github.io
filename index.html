@@ -1,142 +1,579 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-FNNE299D96"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'G-FNNE299D96');
-	</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Yellow Band Project</title>
-	<link rel="icon" type="image/png" href="https://jimswells.github.io/images/favicon.png">
-    <style>
-	
-		@font-face {
-			font-family: myFirstFont;
-			src: url(assets/waltographUI.ttf);
-		}
+  <link rel="icon" type="image/png" href="./resources/favicon.png">
+  <meta charset="UTF-8">
+  <title>Scavenger hunt</title>
+  <style>
 
-        body {
-            margin: 0;
-            padding: 0;
-            background: white;
-			color:#424247;
-            font-family: Tahoma, sans-serif;
-			font-size: 1.2em;
-        }
-		
-		.bandtext
-		{
-			font-size : 30px;
-			font-weight: bold;
-			//font-family: "Waltograph", cursive;
-			font-family: myFirstFont;
-			white-space: nowrap;
-			color:black;
-		}
-		
-		.leftband
-		{
-		    padding-left: 20px;
-		}
-		.centerband
-		{
-			color:#FCFF4B;
-		}
-		
-		.rightband
-		{
-		    padding-right: 20px;
-		}
-        
-        .band {
-            background-color: #FCFF4B;
-            height: 5em;
-			display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-        }
-		
-		.bandtop {
-			margin-top: 20px;
-            background: linear-gradient(to top, #FCFF4B, #999);
-            height: 5px;
-        }
-		
-		.bandbottom {
-            background: linear-gradient(to bottom, #FCFF4B, #999);
-            height: 8px;
-        }
-		
-		.content-container
-		{
-			margin-left: 40px;
-			margin-right: 40px;
-            justify-content: center;
-			padding-bottom: 20px;
-		}
-		
-		h1
-		{
-            text-align: center;
-		}
-		
-		.footer a
-		{
-			color:yellow;
-			text-decoration: none;
-		}
-		
-		.footer a:hover
-		{
-			color:white;
-			text-decoration: none;
-		}
-        
-        .content {
-            text-align: left;
-        }
-		
-		.OwenBanner
-		{
-			background-position: center center;
-			display: block;
-			margin-left: -40px;
-			margin-right: -40px;
-			height : 400px;
-			background-repeat: no-repeat;
-			background-image: url("images/OwenBanner.jpg");
-		}
-		
-		.footer
-		{
-			color: white;
-			text-align: center;
-			background: #424247;
-			height: 40px;
-			padding-top: 30px;
-			padding-bottom: 30px;
-		}
-    </style>
-</head>
-<body onload="">
-	<div class="bandtop"></div>
-    <div class="band"><div class="bandtext leftband">Spread Kindness</div><div class="bandtext centerband">Owen Wells</div><div class="bandtext rightband">Radiate Joy</div></div>
-	<div class="bandbottom"></div>
-	<div class="content-container">
-    <div class="content">
-	<div class="OwenBanner"> </div>
-        <h1>Welcome to The Yellow Band Project</h1>Whenever Owen was asked that age old question of what do you want to do when you grow up, he always had the same answer. He wanted to make people happy. You could see it in the way he treated others, even complete strangers. Asking how a persons day was going. Holding doors open for people. Greeting people by name. His goal was always the same, to make people smile. To share his joy with others wherever he went. 
-<br/><br/>On November 17th, 2022 Owen was killed in a hit and run accident. In his memory, his family and friends have taken his passion for spreading kindness and expanded it throughout their communities. The yellow bands are a reminder of living that mission out daily, to radiate joy and spread kindness everywhere. 
-<br/><br/>
-<hr/><br/>If you would like to be an ambassador in your community and spread the mission of joy and kindness we would love to send you some yellow bands for you to give out whenever you see kindness and joy being displayed. <a href="https://docs.google.com/forms/d/e/1FAIpQLSdDCWW7_zWkyzLyXr9sIQTBwWFOStM5qriUSmZ6YHRAAD6mGg/viewform?usp=sf_link">Become an Ambassador.</a></p>
-    </div></div>
+    * {
+      user-select: none;
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none;     /* IE10+ */
+    }
+  
+	  @font-face {
+	  font-family: 'MyFont';
+	  src: url('./resources/CreatoDisplay-Regular.otf') format('truetype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+  #activate {
+  position: fixed;
+  bottom: 20px; /* or wherever you want it */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000; /* higher than everything else */
+  background: #FE7743;
+  color: white;
+  font-size: 30px;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+  
+    body {
+      font-family: 'MyFont', sans-serif;
+      text-align: center;
+      padding: 200px 20px 40px;
+      box-sizing: border-box;
+	    background:#f3f2f2;
+      color: #273F4F;
+    }
+    #arrow {
+      position: fixed;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(var(--rotate, 0deg));
+      transition: transform 0.05s linear;
+      z-index: 0;
+    }
+    .data {
+      font-size: 50px;
+      margin: 8px 0;
+    }
+    .lowerdata {
+      font-size:60px;
+      color: green;
+      font-weight: bold;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 5px 0;
+      z-index: 1000;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+      #banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #FE7743;
+      color: white;
+      z-index: 1000;
+      font-size: 40px;
+	    box-shadow: 4px 4px 12px rgba(0,0,0,0.6);
+    }
 	
-	<div class="footer"> <a href="mailto:jim.s.wells@gmail.com?subject=Yellow band ambassador" target="_blank">Contact us</a> | <a href="https://www.instagram.com/theyellowbandproject/" target="_blank"> <image src="images/Instagram.png" width="18px" /> Instagram </a><br>When kindness is at the heart of all you do, the impact will be felt long after you’re gone.</div
+	.showClue {
+	font-size: 60px; padding: 25px 60px; 
+  background: linear-gradient(135deg, #FE7743, #ffc371); 
+  border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+  cursor: pointer;
+	}
+	
+	.toast {
+  flex-direction: column;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 85%;
+  background-color: black;
+  color: white;
+  padding: 40px;
+  border-radius: 64px;
+  font-size: 100px;
+  z-index: 1001;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow-y: auto;
+  position: fixed;
+}
+
+.closeToast {
+  position: absolute;
+  bottom: 40px;
+  right: 50px;
+  font-size: 80px;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+  z-index: 1002;
+}
+</style>
+<style>
+    #loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f3f2f2;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #333;
+    }
+    .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div id="loadingOverlay"> <!-- dribbble.com/shots/2230092-Adventures -->
+  <img src="./resources/loading.gif" alt="Loading..." style="width: 100%; height: 37%;">
+  <div style="margin-top: -20px; font-size: 75px;">Loading adventure...</div>
+</div>
+  </div>
+  <div id="banner" onclick="toggleAdmin();">
+  <h1>{{title}}</h1>
+
+  <div id="banner-buttons" style="display: none;">
+    <button onclick="document.cookie=`completed_${encodeURIComponent(hunt.title)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; document.cookie='waypointIndex=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; toggleAdmin();" style="font-size: 40px; margin-top: 20px;">
+      Reset game
+    </button>
+    <button onclick="completeCurrentWaypoint(); toggleAdmin();" style="font-size: 40px; margin-top: 20px;">
+      Complete Current Waypoint
+    </button>
+  </div>
+</div>
+
+  <div class="data" style="display:none;"><strong>Your Latitude:</strong> <span id="lat">--</span></div>
+  <div class="data" style="display:none;"><strong>Your Longitude:</strong> <span id="lon">--</span></div>
+  <div class="data"><strong><span id="waypoint"></span></strong></div>
+  <div class="data"><strong>Distance to waypoint:</strong> <span id="distance">--</span></div>
+  <div class="data"><strong>Bearing to waypoint:</strong> <span id="bearing">--</span>° (<span id="bearingDir">--</span>)</div>
+  <div class="data"><strong>Your Heading:</strong> <span id="heading">--</span>° (<span id="dir">--</span>)</div>
+  <button onclick="showClue()" class="showClue" >Show Clue</button>
+  <div class="data" style="display:none;"><strong>Speed:</strong> <span id="speed">--</span> m/s</div>
+  <div id="arrow"><img width="700" height="700" src="./resources/arrow.png"></div>
+  <div class="lowerdata" id="accuracyRow"><strong>GPS Accuracy:</strong> <span id="accuracy">--</span> ft</div>
+  <button id="activate">Activate sensors!</button>
+  <div id="clueToast" class="toast">
+    <span class="closeToast" onclick="closeToast()"> Close </span><span id="clueToastMessage">X</span>
+  </div>
+  <audio id="clueSound" src="./resources/clue.mp3" preload="auto"></audio>
+  <audio id="finishedSound" src="./resources/finished.mp3" preload="auto"></audio>
+  <audio id="waypointSound" src="./resources/waypoint.mp3" preload="auto"></audio>
+  <script>
+    // TODO : Load Json from file
+     const hunt = {
+      "title": "Staycation Fun",
+      "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
+      "waypoints": [
+        {
+          "lat": 28.369609, 
+          "lon": -81.554932,
+          "foundMessage": "It was always being crossed.",
+          "clue": "This thing is always very sad...",
+          "completed":"false"
+        },
+        {
+          "lat": 28.367766,
+          "lon": -81.555623,
+          "foundMessage": "Maybe we should get some pictures?",
+          "clue": "Say cheese!",
+          "completed":"false"
+        },
+        {
+          "lat": 28.367065, 
+          "lon": -81.556241,
+          "foundMessage": "Should we go for a ride?",
+          "clue": "This thing can fit 4 people",
+          "completed":"false"
+        }
+      ,
+        {
+          "lat": 28.367563,
+          "lon":  -81.557825,
+          "foundMessage": "Should I take mommy dancing?",
+          "clue": "Waltz, Tango, Salsa...",
+          "completed":"false"
+        },
+        {
+          "lat": 28.369541,
+        "lon": -81.557461,
+          "foundMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a><br>for your prize!",
+          "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
+        "completed":"false"
+        }
+      ]
+    };
+
+  let targetLat;
+  let targetLon;
+
+  let currentLat = null;
+  let currentLon = null;
+  let currentHeading = null;
+  let currentWaypoint = null;
+  let wakeLock = null;
+	let isFinished = false;
+  let isFirstLoad = false;
+	
+	let intAdminToggle = 0;
+
+	function toggleAdmin()
+	{
+		if (intAdminToggle >= 4 ) 
+    { document.getElementById('banner-buttons').style.display = 'block'; intAdminToggle = 0; } 
+    else { document.getElementById('banner-buttons').style.display = 'none'; intAdminToggle++; }
+  }
+
+  function closeToast()
+  {
+    document.getElementById('clueToast').style.display='none';
+    if (isFirstLoad)
+    {
+      isFirstLoad = false;
+      playFinishedSound();
+    }
+  }
+
+    function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+
+    function getDirectionText(deg) {
+      const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+      const index = Math.round(deg / 45) % 8;
+      return directions[index];
+    }
+
+    function getDistanceAndBearing(lat1, lon1, lat2, lon2) {
+      const R = 6371000;
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+      const a = Math.sin(Δφ/2)**2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2)**2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c;
+
+      const y = Math.sin(Δλ) * Math.cos(φ2);
+      const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+      const bearing = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+
+      // If within 10 feet, mark complete only once
+      // 3 ~ 10 feet
+      // 4.5 ~ 15 feet
+      // 6 ~ 20 feet
+      if (distance <= 4.5) {
+        completeCurrentWaypoint();
+      }
+
+      return { distance, bearing };
+    }
+
+  function updateDisplay(bearingToTarget) {
+    if (currentHeading == null || bearingToTarget == null) return;
+
+    const relativeBearing = (bearingToTarget - currentHeading + 360) % 360;
+    const arrow = document.getElementById('arrow');
+    arrow.style.transition = 'none';
+    arrow.offsetHeight;
+    arrow.style.transition = 'transform 0.00s linear'; // It was jummping when crossing the 360, 0 mark so I took smoothing off
+    arrow.style.setProperty('--rotate', `${relativeBearing}deg`);
+  }
+
+  function requestWakeLock() {
+    if ('wakeLock' in navigator) {
+      navigator.wakeLock.request('screen').then(lock => {
+        wakeLock = lock;
+        console.log('✅ Wake Lock active');
+        lock.addEventListener('release', () => {
+          console.warn('⚠️ Wake Lock released');
+        });
+      }).catch(console.error);
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+     if (wakeLock && document.visibilityState === 'visible') requestWakeLock();
+  });
+
+  async function activateSensors() {
+      //document.getElementById('activate').disabled = true;
+      requestWakeLock();
+
+      if ('AbsoluteOrientationSensor' in window && !isIOS()) {
+        const sensor = new AbsoluteOrientationSensor({ frequency: 10 });
+        sensor.addEventListener('reading', () => {
+          const q = sensor.quaternion;
+          const heading = quaternionToHeading(q);
+          if (!isNaN(heading)) {
+            currentHeading = heading;
+            document.getElementById('heading').textContent = heading.toFixed(0);
+            document.getElementById('dir').textContent = getDirectionText(heading);
+            if (currentLat && currentLon) {
+              const { distance, bearing } = getDistanceAndBearing(currentLat, currentLon, targetLat, targetLon);
+              if (distance >= 1609.34) {
+                const miles = distance / 1609.34;
+                const formatted = miles < 5 ? miles.toFixed(1) : miles.toFixed(0);
+                document.getElementById('distance').textContent = `${formatted} miles`;
+              } else {
+                const feet = distance * 3.28084;
+                if (feet <= 30)
+                {
+                  document.getElementById('distance').textContent = `Very close`;
+                }
+                else
+                {
+                  document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                }
+              }
+              document.getElementById('bearing').textContent = bearing.toFixed(0);
+              document.getElementById('bearingDir').textContent = getDirectionText(bearing);
+              updateDisplay(bearing);
+            }
+          }
+        });
+        sensor.start();
+      } else if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(permissionState => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientationabsolute', (event) => {
+              if (event.absolute && event.alpha !== null) {
+
+                const heading = (360 - event.alpha) % 360;
+                currentHeading = heading;
+                document.getElementById('heading').textContent = heading.toFixed(1);
+                document.getElementById('dir').textContent = getDirectionText(heading);
+				
+                if (currentLat && currentLon) {
+                  const { distance, bearing } = getDistanceAndBearing(currentLat, currentLon, targetLat, targetLon);
+                  if (distance >= 1609.34) {
+                    const miles = distance / 1609.34;
+                    const formatted = miles < 5 ? miles.toFixed(1) : miles.toFixed(0);
+                    document.getElementById('distance').textContent = `${formatted} miles`;
+                  } else {
+                    const feet = distance * 3.28084;
+                    if (feet <= 30)
+                    {
+                      document.getElementById('distance').textContent = `Very close`;
+                    }
+                    else
+                    {
+                      document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                    }
+                  }
+                  document.getElementById('bearing').textContent = bearing.toFixed(0);
+                  updateDisplay(bearing);
+                }
+              }
+            });
+          }
+        }).catch(console.error);
+      } else {
+        alert("Compass sensor not supported on this device.");
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(pos => {
+          currentLat = pos.coords.latitude;
+          currentLon = pos.coords.longitude;
+          document.getElementById('lat').textContent = currentLat.toFixed(6);
+          document.getElementById('lon').textContent = currentLon.toFixed(6);
+          const accuracyInMeters = pos.coords.accuracy;
+          const accuracyInFeet = accuracyInMeters * 3.28084; // 1 meter = 3.28084 feet
+          const accuracyElem = document.getElementById('accuracy');
+          const accuracyRow = document.getElementById('accuracyRow');
+          accuracyElem.textContent = accuracyInFeet.toFixed(0);
+
+          if (accuracyInFeet < 30) {
+            accuracyRow.style.color = 'green';
+          } else if (accuracyInFeet < 100) {
+            accuracyRow.style.color = 'orange';
+          } else {
+            accuracyRow.style.color = 'red';
+          }
+          document.getElementById('speed').textContent = pos.coords.speed !== null ? pos.coords.speed.toFixed(2) : '0.00';
+		      document.getElementById('loadingOverlay').classList.add('hidden');
+        }, err => {
+          alert("Geolocation error: " + err.message);
+        }, { enableHighAccuracy: true });
+      }
+    }
+
+ function quaternionToHeading(q) {
+    const [x, y, z, w] = q;
+    const siny_cosp = 2 * (w * z + x * y);
+    const cosy_cosp = 1 - 2 * (y * y + z * z);
+    let yaw = Math.atan2(siny_cosp, cosy_cosp);
+    let deg = yaw * (180 / Math.PI);
+    return (360 - deg + 360) % 360;
+  }
+
+  document.getElementById('activate').addEventListener('click', activateSensors);
+
+    // Auto-activate on Android and non-iOS
+  if (!isIOS()) {
+    window.addEventListener('load', () => {
+      activateSensors();
+       //document.getElementById('activate').style.display = 'none';
+      // Inject title into banner
+      document.querySelector('#banner h1').textContent = hunt.title;
+      // Restore current waypoint from saved index and update currentWaypoint
+      currentWaypoint = hunt.waypoints[waypointIndex];
+      targetLat = currentWaypoint.lat;
+      targetLon = currentWaypoint.lon;
+    });
+  }
+
+	function displayCompletedWall() {
+    
+    console.log('Display completed wall');
+    document.querySelectorAll('body > :not(#banner)').forEach(el => el.style.display = 'none');
+    const goodbye = document.createElement('div');
+    goodbye.textContent = 'Until next time...';
+    goodbye.style.fontSize = '72px';
+    goodbye.style.marginTop = '150px';
+    goodbye.style.textAlign = 'center';
+    document.body.appendChild(goodbye);
+    playFinishedSound();
+	}
+
+  let waypointIndex = (function() {
+    const completedMatch = document.cookie.match(new RegExp(`(?:^|; )completed_${encodeURIComponent(hunt.title)}=true`));
+    if (completedMatch) {
+      displayCompletedWall();
+      return 0;
+    }
+    const match = document.cookie.match(/waypointIndex=(\d+)/);
+    if (match) {
+      console.log('waypoint index : ' + match[1]);
+      return parseInt(match[1]);
+    } else {
+      //First time start Message
+      sendToLogger(`Started`);
+      console.log('First run');
+      isFirstLoad = true;
+      setWaypointIndex(0);
+      toast(hunt.startMessage);
+      return 0;
+    }
+  })();
+
+  setWaypointDataHeader(waypointIndex);
+
+  function setWaypointIndex(index) {
+    document.cookie = 'waypointIndex=' + index + '; path=/; max-age=604800';
+    currentWaypoint = hunt.waypoints[index];
+    targetLat = currentWaypoint.lat;
+    targetLon = currentWaypoint.lon;
+    console.log('setWaypointIndex : ' + index);
+    setWaypointDataHeader(index);
+  }
+
+  function setWaypointDataHeader(index)
+  {
+    if (index + 1 === hunt.waypoints.length)
+    {//Last waypoint
+      document.getElementById('waypoint').textContent = `Last waypoint`;
+    }
+    else
+    {//More to go
+      document.getElementById('waypoint').textContent = `Waypoint ${index + 1}  of ${hunt.waypoints.length}`;
+    }
+  }
+
+  function toast(message) {
+    console.log('Toast message : ' + message);
+    const clueToast = document.getElementById('clueToast');
+    const clueToastMessage = document.getElementById('clueToastMessage');
+    clueToastMessage.innerHTML = message;
+    clueToast.style.animation = 'none'; // Reset animation
+    clueToast.offsetHeight; // Trigger reflow
+    clueToast.style.display = 'flex';  
+  }    
+
+    
+  function showClue() {
+    const nextWaypoint = hunt.waypoints[waypointIndex];
+    const clueText = hunt.waypoints[waypointIndex].clue || "No more clues available.";
+    sendToLogger(`Clue for waypoint ${waypointIndex + 1}`);
+    toast(clueText);
+    playClueSound();
+  }    
+
+  function completeCurrentWaypoint() {
+    console.log('Waypoint completed : ' + waypointIndex);
+    sendToLogger(`Waypoint ${waypointIndex + 1} completed`);
+    currentWaypoint = hunt.waypoints[waypointIndex];
+    if (!isFinished)
+    {
+      hunt.waypoints[waypointIndex].completed = "true";
+      if (waypointIndex + 1 < hunt.waypoints.length) {
+        toast(hunt.waypoints[waypointIndex].foundMessage);
+        waypointIndex++;
+        setWaypointIndex(waypointIndex);
+        playWaypointSound();
+      } else {
+        isFinished = true;
+        document.cookie = `completed_${encodeURIComponent(hunt.title)}=true; path=/; max-age=604800`;
+        displayCompletedWall();
+        toast(hunt.waypoints[waypointIndex].foundMessage);
+        playFinishedSound();
+      }
+    }
+  }
+
+  function sendToLogger(message) {
+    // VTJWamRYSnBkSGtnWW5rZ2IySnpaV04xY21sMGVTd2dTU0JyYm05M0xpNHVJSFJvYVhNZ2FYTWdhblZ6ZENCemRYQndiM05sWkNCMGJ5QmlaU0J6YjIxbGRHaHBibWNnWm5WdUlIZHBkR2dnYlhrZ1ptRnRhV3g1TENCa2IyNG5kQ0J5ZFdsdUlHbDBJUT09
+    const formattedMessage = encodeURIComponent(`${hunt.title} : ${message}`);
+    const p = atob(atob('TVRneE16UXdORE13T0RFPQ=='));
+    const k = atob(atob('TlRJNE9UTTFOZz09'));
+    const u = atob(atob('YUhSMGNITTZMeTloY0drdVkyRnNiRzFsWW05MExtTnZiUzkzYUdGMGMyRndjQzV3YUhBL2MyOTFjbU5sUFhkbFlpWndhRzl1WlQwPQ=='));
+    const ap = atob(atob('Sm1Gd2FXdGxlVDA9'));
+    const url = `${u}${p}&text=${formattedMessage}${ap}${k}`;
+    return;
+    fetch(url)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        console.log(response.text());
+        return response.text();
+      })
+      .then(data => console.log('Sent:', data))
+      .catch(err => console.error('Error:', err));
+  }
+
+  function playClueSound() {
+    const sound = document.getElementById('clueSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
+  function playFinishedSound() {
+    const sound = document.getElementById('finishedSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
+  function playWaypointSound() {
+    const sound = document.getElementById('waypointSound');
+    sound.play().catch(e => console.warn('Autoplay blocked:', e));
+  }
+
+</script>
+
 </body>
 </html>
