@@ -20,7 +20,7 @@
 
   #activate {
   position: fixed;
-  bottom: 20px; /* or wherever you want it */
+  bottom: 30px; /* or wherever you want it */
   left: 50%;
   transform: translateX(-50%);
   z-index: 3000; /* higher than everything else */
@@ -413,6 +413,7 @@
         }, err => {
           alert("Geolocation error: " + err.message);
         }, { enableHighAccuracy: true });
+        document.getElementById('activate').disabled = true;
       }
     }
 
