@@ -20,6 +20,7 @@
 
   #activate {
   position: fixed;
+  bottom: 30px; /* or wherever you want it */
   left: 50%;
   transform: translateX(-50%);
   z-index: 3000; /* higher than everything else */
@@ -317,6 +318,7 @@
       requestWakeLock();
 
       if ('AbsoluteOrientationSensor' in window && !isIOS()) {
+        document.getElementById('activate').style.display = 'none';
         const sensor = new AbsoluteOrientationSensor({ frequency: 10 });
         sensor.addEventListener('reading', () => {
           const q = sensor.quaternion;
@@ -379,6 +381,7 @@
                   }
                   document.getElementById('bearing').textContent = bearing.toFixed(0);
                   updateDisplay(bearing);
+                  document.getElementById('activate').style.display = 'none';
                 }
               }
             });
@@ -412,6 +415,7 @@
         }, err => {
           alert("Geolocation error: " + err.message);
         }, { enableHighAccuracy: true });
+        
       }
     }
 
