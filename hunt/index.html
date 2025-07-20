@@ -17,6 +17,22 @@
 	  font-weight: normal;
 	  font-style: normal;
 	}
+
+  #activate {
+  position: fixed;
+  bottom: 20px; /* or wherever you want it */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000; /* higher than everything else */
+  background: #FE7743;
+  color: white;
+  font-size: 30px;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
   
     body {
       font-family: 'MyFont', sans-serif;
@@ -154,7 +170,7 @@
   <div class="data" style="display:none;"><strong>Speed:</strong> <span id="speed">--</span> m/s</div>
   <div id="arrow"><img width="700" height="700" src="./resources/arrow.png"></div>
   <div class="lowerdata" id="accuracyRow"><strong>GPS Accuracy:</strong> <span id="accuracy">--</span> ft</div>
-  <button id="activate">Activate</button>
+  <button id="activate">Activate sensors!</button>
   <div id="clueToast" class="toast">
     <span class="closeToast" onclick="closeToast()"> Close </span><span id="clueToastMessage">X</span>
   </div>
@@ -298,7 +314,7 @@
   });
 
   async function activateSensors() {
-      document.getElementById('activate').disabled = true;
+      //document.getElementById('activate').disabled = true;
       requestWakeLock();
 
       if ('AbsoluteOrientationSensor' in window && !isIOS()) {
@@ -393,7 +409,7 @@
             accuracyRow.style.color = 'red';
           }
           document.getElementById('speed').textContent = pos.coords.speed !== null ? pos.coords.speed.toFixed(2) : '0.00';
-		      document.getElementById('loadingOverlay').classList.add('hidden');
+		      //document.getElementById('loadingOverlay').classList.add('hidden');
         }, err => {
           alert("Geolocation error: " + err.message);
         }, { enableHighAccuracy: true });
@@ -415,7 +431,7 @@
   if (!isIOS()) {
     window.addEventListener('load', () => {
       activateSensors();
-       document.getElementById('activate').style.display = 'none';
+       //document.getElementById('activate').style.display = 'none';
       // Inject title into banner
       document.querySelector('#banner h1').textContent = hunt.title;
       // Restore current waypoint from saved index and update currentWaypoint
