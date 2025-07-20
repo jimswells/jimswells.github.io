@@ -1,25 +1,18 @@
-{ 
+{
   "title": "Fun at home",
-  "startMessage": "Welcome, brave explorer! Your quest begins now. Follow the clues to each waypoint.",
-  "endMessage": "Congratulations! You’ve finished the scavenger hunt!",
+  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
   "waypoints": [
     {
       "lat": 28.56871841547093, 
       "lon": -81.68813310691341,
-      "foundMessage": "Frist spot",
+      "foundMessage": "At the end",
       "clue": "Driveway - 1", "completed":"false"
     },
     {
-      "lat": 28.56861536803582, 
-      "lon": -81.68840088104884,
-      "foundMessage": "Second spot",
-      "clue": "Stupid Tree - 2", "completed":"false"
-    },
-    {
-      "lat": 28.56862466187152, 
-	  "lon": -81.68896641527571,
-      "foundMessage": "",
-      "clue": "Gate - 3", "completed":"false"
+      "lat": 28.56884143889554, 
+      "lon": -81.68816104929034,
+      "foundMessage": "Home",
+      "clue": "Back to the house - 2", "completed":"false"
     }
   ]
 }

@@ -1,41 +1,40 @@
 {
   "title": "Staycation Fun",
-  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.",
-  "endMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a> for your prize!",
+  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
   "waypoints": [
     {
       "lat": 28.369609, 
       "lon": -81.554932,
       "foundMessage": "It was always being crossed.",
       "clue": "This thing is always very sad...",
-	  "completed":"false"
+	    "completed":"false"
     },
     {
       "lat": 28.367766,
       "lon": -81.555623,
       "foundMessage": "Maybe we should get some pictures?",
       "clue": "Say cheese!",
-	  "completed":"false"
+	    "completed":"false"
     },
     {
       "lat": 28.367065, 
-	  "lon": -81.556241,
+	    "lon": -81.556241,
       "foundMessage": "Should we go for a ride?",
       "clue": "This thing can fit 4 people",
-	  "completed":"false"
+	    "completed":"false"
     }
 	,
     {
       "lat": 28.367563,
-	  "lon":  -81.557825,
+	    "lon":  -81.557825,
       "foundMessage": "Should I take mommy dancing?",
       "clue": "Waltz, Tango, Salsa...",
-	  "completed":"false"
+	    "completed":"false"
     },
     {
       "lat": 28.369541,
 	  "lon": -81.557461,
-      "foundMessage": "",
+      "foundMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a><br>for your prize!",
       "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
 	  "completed":"false"
     }

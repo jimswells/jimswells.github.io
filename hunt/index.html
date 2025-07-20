@@ -131,14 +131,14 @@
   <div style="margin-top: -20px; font-size: 75px;">Loading adventure...</div>
 </div>
   </div>
-  <div id="banner">
-  <h1 onclick="toggleAdmin()">{{title}}</h1>
+  <div id="banner" onclick="toggleAdmin();">
+  <h1>{{title}}</h1>
 
   <div id="banner-buttons" style="display: none;">
-    <button onclick="document.cookie=`completed_${encodeURIComponent(hunt.title)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; document.cookie='waypointIndex=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'" style="font-size: 40px; margin-top: 20px;">
+    <button onclick="document.cookie=`completed_${encodeURIComponent(hunt.title)}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`; document.cookie='waypointIndex=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'; toggleAdmin();" style="font-size: 40px; margin-top: 20px;">
       Reset game
     </button>
-    <button onclick="completeCurrentWaypoint()" style="font-size: 40px; margin-top: 20px;">
+    <button onclick="completeCurrentWaypoint(); toggleAdmin();" style="font-size: 40px; margin-top: 20px;">
       Complete Current Waypoint
     </button>
   </div>
@@ -164,50 +164,48 @@
   <script>
     // TODO : Load Json from file
      const hunt = {
-  "title": "Staycation Fun",
-  "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
-  "endMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a><br>for your prize!",
-  "waypoints": [
-    {
-      "lat": 28.369609, 
-      "lon": -81.554932,
-      "foundMessage": "It was always being crossed.",
-      "clue": "This thing is always very sad...",
-	  "completed":"false"
-    },
-    {
-      "lat": 28.367766,
-      "lon": -81.555623,
-      "foundMessage": "Maybe we should get some pictures?",
-      "clue": "Say cheese!",
-	  "completed":"false"
-    },
-    {
-      "lat": 28.367065, 
-	  "lon": -81.556241,
-      "foundMessage": "Should we go for a ride?",
-      "clue": "This thing can fit 4 people",
-	  "completed":"false"
-    }
-	,
-    {
-      "lat": 28.367563,
-	  "lon":  -81.557825,
-      "foundMessage": "Should I take mommy dancing?",
-      "clue": "Waltz, Tango, Salsa...",
-	  "completed":"false"
-    },
-    {
-      "lat": 28.369541,
-	  "lon": -81.557461,
-      "foundMessage": "",
-      "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
-	  "completed":"false"
-    }
-  ]
-};
+      "title": "Staycation Fun",
+      "startMessage": "Welcome, brave explorers! Your quest begins now. Follow the clues to each waypoint.<br/><br/><br/>⚠️<span style='font-size: 50px;'><br/>GPS accuracy may vary and can jump around, especially near buildings or trees.  Pay attention to your accuracy meter.⬇️⬇️⬇️</span>",
+      "waypoints": [
+        {
+          "lat": 28.369609, 
+          "lon": -81.554932,
+          "foundMessage": "It was always being crossed.",
+          "clue": "This thing is always very sad...",
+          "completed":"false"
+        },
+        {
+          "lat": 28.367766,
+          "lon": -81.555623,
+          "foundMessage": "Maybe we should get some pictures?",
+          "clue": "Say cheese!",
+          "completed":"false"
+        },
+        {
+          "lat": 28.367065, 
+          "lon": -81.556241,
+          "foundMessage": "Should we go for a ride?",
+          "clue": "This thing can fit 4 people",
+          "completed":"false"
+        }
+      ,
+        {
+          "lat": 28.367563,
+          "lon":  -81.557825,
+          "foundMessage": "Should I take mommy dancing?",
+          "clue": "Waltz, Tango, Salsa...",
+          "completed":"false"
+        },
+        {
+          "lat": 28.369541,
+        "lon": -81.557461,
+          "foundMessage": "Congratulations! You’ve finished the scavenger hunt! <br><a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' target='_blank'>Click here</a><br>for your prize!",
+          "clue": "Blue canary in the outlet by the light switch. Who watches over you. Make a little birdhouse in your soul. Not to put too fine a point on it. Say I'm the only bee in your bonnet. Make a little birdhouse in your soul.",
+        "completed":"false"
+        }
+      ]
+    };
 
-  let justCompleted = false;
   let targetLat;
   let targetLon;
 
@@ -223,7 +221,7 @@
 
 	function toggleAdmin()
 	{
-		if (intAdminToggle >= 1 ) 
+		if (intAdminToggle >= 5 ) 
     { document.getElementById('banner-buttons').style.display = 'block'; intAdminToggle = 0; } 
     else { document.getElementById('banner-buttons').style.display = 'none'; intAdminToggle++; }
   }
@@ -236,7 +234,6 @@
       isFirstLoad = false;
       playFinishedSound();
     }
-    
   }
 
     function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
@@ -266,10 +263,8 @@
       // 3 ~ 10 feet
       // 4.5 ~ 15 feet
       // 6 ~ 20 feet
-      if (distance <= 4.5 && !justCompleted) {
-        justCompleted = true;
+      if (distance <= 4.5) {
         completeCurrentWaypoint();
-        setTimeout(() => justCompleted = false, 5000);
       }
 
       return { distance, bearing };
@@ -323,7 +318,14 @@
                 document.getElementById('distance').textContent = `${formatted} miles`;
               } else {
                 const feet = distance * 3.28084;
-                document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                if (feet <= 30)
+                {
+                  document.getElementById('distance').textContent = `Very close`;
+                }
+                else
+                {
+                  document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                }
               }
               document.getElementById('bearing').textContent = bearing.toFixed(0);
               document.getElementById('bearingDir').textContent = getDirectionText(bearing);
@@ -351,7 +353,14 @@
                     document.getElementById('distance').textContent = `${formatted} miles`;
                   } else {
                     const feet = distance * 3.28084;
-                    document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                    if (feet <= 30)
+                    {
+                      document.getElementById('distance').textContent = `Very close`;
+                    }
+                    else
+                    {
+                      document.getElementById('distance').textContent = `${feet.toFixed(0)} feet`;
+                    }
                   }
                   document.getElementById('bearing').textContent = bearing.toFixed(0);
                   updateDisplay(bearing);
@@ -508,7 +517,7 @@
         isFinished = true;
         document.cookie = `completed_${encodeURIComponent(hunt.title)}=true; path=/; max-age=604800`;
         displayCompletedWall();
-        toast(hunt.endMessage);
+        toast(hunt.waypoints[waypointIndex].foundMessage);
         playFinishedSound();
       }
     }
@@ -522,6 +531,7 @@
     const u = atob(atob('YUhSMGNITTZMeTloY0drdVkyRnNiRzFsWW05MExtTnZiUzkzYUdGMGMyRndjQzV3YUhBL2MyOTFjbU5sUFhkbFlpWndhRzl1WlQwPQ=='));
     const ap = atob(atob('Sm1Gd2FXdGxlVDA9'));
     const url = `${u}${p}&text=${formattedMessage}${ap}${k}`;
+    return;
     fetch(url)
       .then(response => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
