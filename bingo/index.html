@@ -4,8 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0b0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Destiny Team Bingo</title>
-  <link rel="manifest" id="mfLink">
+  <link rel="manifest" href="./manifest.webmanifest" id="mfLink">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
   <style>
     :root{ --bg:#0b0b0f; --card:#ffffff; --ink:#000; --gold:#caa034; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#0f172a; --muted:#9ca3af }
     html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
@@ -43,7 +46,7 @@
         <path d="M46 14l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7z" fill="#caa034"/>
       </svg>
       <div class="titleBlock">
-        <div class="titleText">Destiny Team Bingo</div>
+        <div class="titleText">Destiny Team Bingo v5</div>
         <div class="badge">DCL · Heroes vs Villains</div>
       </div>
     </div>
@@ -153,74 +156,5 @@
     }
   })();
   </script>
-
-  <!-- =========================
-       SAVE THIS AS sw.js (same folder as this HTML)
-       ========================= -->
-  <!--
-  // sw.js
-  const CACHE = 'destiny-bingo-v2';
-  const APP_SHELL_KEY = 'app-shell';
-
-  self.addEventListener('install', event => {
-    event.waitUntil((async () => {
-      const cache = await caches.open(CACHE);
-      try {
-        // Pre-cache the current HTML as the app shell
-        const resp = await fetch(self.registration.scope, { cache: 'reload' });
-        await cache.put(APP_SHELL_KEY, resp.clone());
-      } catch (e) {
-        // first load might be offline — that's okay, we'll cache on first successful fetch
-      }
-      self.skipWaiting();
-    })());
-  });
-
-  self.addEventListener('activate', event => {
-    event.waitUntil((async () => {
-      const keys = await caches.keys();
-      await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
-      await self.clients.claim();
-    })());
-  });
-
-  self.addEventListener('fetch', event => {
-    const req = event.request;
-    if (req.mode === 'navigate') {
-      event.respondWith((async () => {
-        try {
-          const net = await fetch(req);
-          const cache = await caches.open(CACHE);
-          // refresh app shell on successful navigation
-          cache.put(APP_SHELL_KEY, net.clone());
-          return net;
-        } catch (e) {
-          const cache = await caches.open(CACHE);
-          const cached = await cache.match(APP_SHELL_KEY);
-          if (cached) return cached;
-          return new Response('<!doctype html><title>Offline</title><h1>Offline</h1><p>Visit once while online to enable offline mode.</p>', { headers: { 'Content-Type': 'text/html' } });
-        }
-      })());
-      return;
-    }
-
-    // Same-origin runtime cache: cache-first, then network, fallback to cache
-    const url = new URL(req.url);
-    if (url.origin === self.location.origin) {
-      event.respondWith((async () => {
-        const cache = await caches.open(CACHE);
-        const cached = await cache.match(req, { ignoreSearch: true });
-        if (cached) return cached;
-        try {
-          const net = await fetch(req);
-          cache.put(req, net.clone());
-          return net;
-        } catch (e) {
-          return cached || Response.error();
-        }
-      })());
-    }
-  });
-  -->
 </body>
 </html>
