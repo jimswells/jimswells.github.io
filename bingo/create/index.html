@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bingo Builder</title>
+  <meta name="theme-color" content="#0b0b0f" />
+  <link rel="apple-touch-icon" href="./images/icon.png" />
+  <link rel="icon" href="./images/icon.png" />
+  <style>
+    :root{ --bg:#212151; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#000; --muted:#9ca3af }
+    html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
+    header{margin-top: 5px;width:100%;max-width:980px;padding:28px 16px 8px;box-sizing:border-box;text-align:center}
+    .titleBlock{display:flex;flex-direction:column;align-items:center}
+    .titleText{font-weight:900;letter-spacing:.6px;font-size:clamp(24px,6.5vw,42px);line-height:1.05;text-transform:uppercase}
+    .badge{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em;background:transparent;text-transform:uppercase}
+    .row{width:100%;max-width:980px;box-sizing:border-box;padding:8px 16px 22px}
+    .panel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
+    .grid{display:grid;gap:12px}
+    .grid.cols2{grid-template-columns:1fr 1fr}
+    .grid.cols3{grid-template-columns:repeat(3,1fr)}
+    label{font-size:.9rem;color:#cbd5e1;display:block;margin:4px 0 6px 2px}
+    input[type="text"], select, textarea{width:90%;padding:10px 12px;border-radius:10px;border:1px solid #374151;background:#0b0b10;color:#e5e7eb}
+    input.badgeSel, select.badgeSel{appearance:none;background:transparent;color:var(--gold);padding:6px 12px;border:1px solid var(--gold);border-radius:999px;font-weight:700;font-size:.85em;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+    .help{font-size:.85rem;color:#9ca3af}
+    .btn{border:1px solid #374151;background:var(--btn);color:#e5e7eb;padding:12px 16px;border-radius:12px;font-weight:800;letter-spacing:.2px;cursor:pointer}
+    .btn:active{transform:translateY(1px)}
+    .shareWrap{margin-top:8px;text-align:center;color:#cbd5e1;font-size:.95rem;word-break:break-all}
+    .inputsTable{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .spot{display:flex;flex-direction:column;gap:6px}
+    .spot small{color:#9ca3af}
+    .suggest{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+    .pill{border:1px solid var(--gold);color:var(--gold);padding:6px 10px;border-radius:999px;font-weight:700;font-size:.8rem;cursor:pointer;background:transparent}
+    .pill:active{transform:translateY(1px)}
+    .preview{display:flex;align-items:center;gap:10px;margin-top:6px}
+    .crestPreview{width:42px;height:42px;border-radius:8px;background:#111;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.2);overflow:hidden}
+    .crestPreview img{max-width:100%;max-height:100%}
+    .row .grid.cols2 .panel{height:100%}
+    .warning{color:#f59e0b;font-size:.9rem}
+    .ok{color:#a7f3d0}
+    .error{color:#fca5a5}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="titleBlock">
+      <div class="titleText">Bingo Builder</div>
+    </div>
+  </header>
+
+  <section class="row">
+  
+      <div class="panel">
+        <div class="preview">
+		<div class="crestPreview" id="crestPrev">—</div>
+          <select id="crest" class="badgeSel" aria-label="Crest image">
+			<option value="images/destiny.png">Destiny</option>
+            <option value="images/dcl.png">Dcl</option>
+          </select>
+        </div>
+        <div class="grid cols2" style="margin-top:12px">
+          <div>
+            <label for="title">Title <span class="help">(max 20)</span></label>
+            <input id="title" type="text" maxlength="25" placeholder="Destiny Team Bingo" />
+          </div>
+		  </br>
+          <div>
+            <label for="subtitle">Subtitle / Team / Theme <span class="help">(max 20)</span></label>
+            <input id="subtitle" type="text" maxlength="25" placeholder="Heroes vs Villains" />
+          </div>
+        </div>
+      </div>
+	  </section>
+<section class="row">
+      <div class="panel">
+        <label>Suggestions</label>
+        <div class="suggest" id="suggest"></div>
+        <p class="help" style="margin-top:8px">Click a pill to append to the next empty slot. Each entry allows up to 40 characters. You need 24 items total.</p>
+      </div>
+  </section>
+
+  <section class="row">
+    <div class="panel">
+      <label>24 Card Spots, they will be randomized for each user. <span class="help">(max 40 chars each)</span></label>
+      <div id="spots" class="inputsTable"></div>
+    </div>
+  </section>
+
+  <section class="row" style="text-align:center">
+    <button class="btn" id="build">Create shareable link</button>
+    <div class="shareWrap" id="out"></div>
+    <div class="help" id="status"></div>
+  </section>
+
+  <script>
+  (function(){
+    const crestSel = document.getElementById('crest');
+    const crestPrev = document.getElementById('crestPrev');
+    const titleEl = document.getElementById('title');
+    const subtitleEl = document.getElementById('subtitle');
+    const spotsEl = document.getElementById('spots');
+    const suggestEl = document.getElementById('suggest');
+    const out = document.getElementById('out');
+    const status = document.getElementById('status');
+
+    const MAX_TITLE = 20, MAX_SUB = 20, MAX_ITEM = 40, COUNT = 24;
+
+    // Simple suggestions — tweak as you like
+    const SUGGESTIONS = [
+      'Hidden Mickey', 'Meet a character', 'Sail‑away party', 'Pin trade', 'Trivia win', 'Ride AquaMouse',
+      'Try a new dessert', 'Watch fireworks', 'Late‑night pizza', 'Find the ship horn', 'Scavenger clue',
+      'Crew member high‑five', 'Photo with porthole', 'Find a secret menu', 'Deck 4 jog', 'Sunrise selfie',
+      'Movie popcorn', 'Castaway Cay bike', 'Mini‑golf round', 'Shuffleboard match', 'Character conga',
+      'Solve a puzzle', 'Karaoke song', 'Dine & dash (not literally)', 'Team huddle'
+    ];
+
+    function b64E(s){ try{return btoa(unescape(encodeURIComponent(s)));}catch(e){return btoa(s);} }
+
+    // Build 25 inputs in a 3‑column grid
+    function makeInputs(){
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<COUNT;i++){
+        const wrap = document.createElement('div');
+        wrap.className = 'spot';
+        const lab = document.createElement('label');
+        lab.textContent = `Spot ${i+1}`;
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.maxLength = MAX_ITEM;
+        inp.dataset.idx = String(i);
+        inp.placeholder = '—';
+        wrap.appendChild(lab);
+        wrap.appendChild(inp);
+        frag.appendChild(wrap);
+      }
+      spotsEl.appendChild(frag);
+    }
+
+    function nextEmptyIndex(){
+      const inputs = spotsEl.querySelectorAll('input');
+      for(let i=0;i<inputs.length;i++) if(!inputs[i].value.trim()) return i; return -1;
+    }
+
+    function addSuggestionPills(){
+      for(const s of SUGGESTIONS){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pill';
+        b.textContent = s;
+        b.addEventListener('click', ()=>{
+          const idx = nextEmptyIndex();
+          if(idx === -1){ flash('All 25 spots are filled.', 'warning'); return; }
+          const inputs = spotsEl.querySelectorAll('input');
+          inputs[idx].value = s.slice(0, MAX_ITEM);
+        });
+        suggestEl.appendChild(b);
+      }
+    }
+
+    function flash(msg, klass){
+      status.textContent = msg; status.className = klass || '';
+      setTimeout(()=>{ status.textContent=''; status.className=''; }, 3000);
+    }
+
+    function updateCrestPreview(){
+      const v = crestSel.value;
+      crestPrev.innerHTML = v ? `<img alt="crest" src="${v}">` : '—';
+    }
+
+    function buildLink(){
+      // basic validations
+      const title = (titleEl.value || '').trim().slice(0, MAX_TITLE);
+      const subtitle = (subtitleEl.value || '').trim().slice(0, MAX_SUB);
+      if(!title){ flash('Title is required.', 'error'); titleEl.focus(); return; }
+      if(!subtitle){ flash('Subtitle is required.', 'error'); subtitleEl.focus(); return; }
+
+      const inputs = Array.from(spotsEl.querySelectorAll('input'));
+      const vals = inputs.map(i => (i.value || '').trim().slice(0, MAX_ITEM));
+
+      // Ensure exactly 25 entries by padding blanks
+      while(vals.length < COUNT) vals.push('');
+      if(vals.length > COUNT) vals.length = COUNT;
+
+      const card = vals.join(';');
+      const payload = { crest: crestSel.value || '', title, subtitle, card };
+      const b64 = b64E(JSON.stringify(payload));
+
+      const u = new URL(location.origin + location.pathname.replace(/[^\/]*$/, 'index.html'));
+      u.searchParams.set('data', b64);
+      out.innerHTML = `Share URL:<br><a href="${u.toString()}" target="_blank">${u.toString()}</a>`;
+
+      // also copy to clipboard
+	  try{
+		navigator.clipboard.writeText(u.toString());
+        alert('Link copied to clipboard.');
+      } catch {
+        alert('Could not copy link. You can manually copy it above.');
+      }
+    }
+
+    // init
+    makeInputs();
+    addSuggestionPills();
+    crestSel.addEventListener('change', updateCrestPreview);
+    updateCrestPreview();
+    document.getElementById('build').addEventListener('click', buildLink);
+  })();
+  </script>
+</body>
+</html>
