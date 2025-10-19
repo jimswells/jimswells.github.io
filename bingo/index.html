@@ -6,20 +6,25 @@
   <meta name="theme-color" content="#0b0b0f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Destiny Team Bingo</title>
+  <title>Team Bingo</title>
   <link rel="manifest" href="./manifest.webmanifest" id="mfLink">
-  <link rel="apple-touch-icon" href="logo.png" />
-  <link rel="icon" href="logo.png" />
+  <link rel="apple-touch-icon" href="./images/icon.png" />
+  <link rel="icon" href="./images/icon.png" />
   <style>
-    :root{ --bg:#0b0b0f; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#0f172a; --muted:#9ca3af }
-    html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:#0d192f;color:#fff;display:flex;flex-direction:column;align-items:center}
+    :root{ --bg:#212151; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#000; --muted:#9ca3af }
+    html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
     header{margin-top: 5px;width:100%;max-width:860px;padding:30px 16px 8px;box-sizing:border-box;text-align:center}
     .logoWrap{display:flex;align-items:center;justify-content:center;gap:10px}
-    .dclCrest{width:42px;height:42px;margin-top: -40px;}
+    .crest{width:55px;margin-top: -45px;}
     .titleBlock{display:flex;flex-direction:column;align-items:center}
-    .titleText{font-weight:900;letter-spacing:.6px;font-size:clamp(22px,6vw,36px);line-height:1.05;text-transform:uppercase}
-    .badge{margin-left: -45px;display:inline-block;margin-top:20px;padding:2px 10px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em}
-    .who{margin-top:10px;font-size:.9rem;color:var(--muted)} .subtitle{margin-top:6px;font-size:.95rem;color:#cbd5e1} .completed{margin-top:8px;font-size:1rem;font-weight:700;color:#a7f3d0;min-height:1.2em}
+    .titleText{font-weight:900;letter-spacing:.6px;font-size:clamp(25px,7vw,45px);line-height:1.05;text-transform:uppercase}
+    .badge{margin-left: -45px;display:inline-block;margin-top:12px;padding:5px 10px 4px 10px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em;background:transparent}
+	.badge:focus {outline: none;box-shadow: 0 0 0 2px var(--gold);}
+	.badge option {background: var(--bg);}
+    .switchWrap{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .forget{border:1px solid #7f1d1d;background:#111;color:#fca5a5;padding:8px 12px;border-radius:999px;font-weight:700}
+    .who{font-weight: bold;margin-top:10px;font-size:.9rem;color:var(--muted)} .subtitle{margin-top:6px;font-size:.95rem;color:#cbd5e1} 
+	.completed{margin-top:15px;font-size:1rem;font-weight:700;color:#a7f3d0;min-height:1.2em}
     main{width:100%;max-width:860px;padding:8px 16px 24px;box-sizing:border-box}
     .board{margin:12px auto 8px;width:100%;aspect-ratio:1/1;max-width:720px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);gap:6px}
     .cell{user-select:none;-webkit-tap-highlight-color:transparent;background:var(--card);color:var(--ink);border-radius:10px;border:2px solid #111;box-shadow:0 1px 2px rgba(0,0,0,.35) inset;display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;font-weight:600;line-height:1.1;font-size:clamp(12px,3.1vw,18px);transition:transform .04s ease,background .15s ease,color .15s ease,box-shadow .15s ease}
@@ -28,6 +33,7 @@
     .controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:50px 14px 0 4px}
     .btn{border:1px solid #374151;background:var(--btn);color:#e5e7eb;padding:10px 14px;border-radius:10px;font-weight:800;letter-spacing:.2px}
     .btn:active{transform:translateY(1px)} .shareWrap{margin-top:8px;text-align:center;color:var(--muted);font-size:.9rem}
+	.forgetBtn{color:red;}
     .shareLink{word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;color:#e5e7eb}
     #confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;display:none}
     @media (max-width:420px){.board{gap:5px}.cell{padding:4px;border-radius:8px}}
@@ -38,10 +44,12 @@
 
   <header>
     <div class="logoWrap">
-      <img class="dclCrest" src="logo.png" />
+      <img class="crest" id="crestImg" src="./images/destiny.png" />
       <div class="titleBlock">
-        <div class="titleText">Destiny Bingo</div>
-        <div class="badge">DCL · Heroes vs Villains</div>
+        <div class="titleText" id="titleText">Bingo</div>
+        <div class="switchWrap" id="switchWrap" hidden>
+          <select class="badge" id="cardSwitch" aria-label="Switch saved Bingo card"></select>
+        </div>
       </div>
     </div>
     <div class="who" id="who"></div>
@@ -52,94 +60,230 @@
     <section class="board" id="board" aria-label="Bingo Board" role="grid"></section>
     <div class="controls">
       <button class="btn" id="resetBtn">Reset board</button>
-      <button class="btn" id="copyBtn">Share Bingo Sheet</button>
+      <button class="btn" id="shareBtn">Share This Board</button>
+	  <button class="btn forgetBtn" id="forgetBtn" title="Forget this completed card" hidden>Forget card!</button>
     </div>
     <div class="shareWrap"><span id="shareOut"></span></div>
   </main>
 
-  <script id="manifest" type="application/manifest+json">{
-    "name":"Destiny Team Bingo",
-    "short_name":"Destiny Bingo",
-    "start_url":"./",
-    "display":"standalone",
-    "background_color":"#0b0b0f",
-    "theme_color":"#0b0b0f",
-    "icons":[
-      {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
-      {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
-    ]
-  }</script>
+  <script id="manifest" type="application/manifest+json">
+  {
+  "name": "Destiny Team Bingo",
+  "short_name": "Destiny Bingo",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b0b0f",
+  "theme_color": "#0b0b0f",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
+  </script>
 
   <script>
   (function(){
-    // ========= Minimal icon generation (keeps it 3-file deploy with auto icons) =========
-    function makeIcon(size){
-      const c=document.createElement('canvas'); c.width=c.height=size; const g=c.getContext('2d');
-      const grd=g.createLinearGradient(0,0,size,size); grd.addColorStop(0,'#1e3a8a'); grd.addColorStop(1,'#7a2f2f'); g.fillStyle=grd; g.fillRect(0,0,size,size);
-      g.strokeStyle='#caa034'; g.lineWidth=size*0.06; g.beginPath(); g.arc(size/2,size/2,size*0.42,0,Math.PI*2); g.stroke();
-      g.fillStyle='#caa034'; const s=size*0.09; g.beginPath(); for(let i=0;i<5;i++){ const a=-Math.PI/2+i*2*Math.PI/5; const x=size/2+Math.cos(a)*s*2; const y=size/2-size*0.22+Math.sin(a)*s*2; g.lineTo(x,y); const a2=a+Math.PI/5; g.lineTo(size/2+Math.cos(a2)*s, size/2-size*0.22+Math.sin(a2)*s);} g.closePath(); g.fill();
-      return c.toDataURL('image/png');
-    }
-    // write data URLs as linkable icons
-    const icon192 = makeIcon(192), icon512 = makeIcon(512);
-    //const a1=document.createElement('link'); a1.rel='icon'; a1.sizes='192x192'; a1.href=icon192; document.head.appendChild(a1);
-    const a2=document.createElement('link'); a2.rel='apple-touch-icon'; a2.href=icon192; document.head.appendChild(a2);
-
-    // build manifest blob from inline JSON, swapping icon URLs to data URLs
+    // ========= Build manifest blob from inline JSON =========
     const mf = JSON.parse(document.getElementById('manifest').textContent);
-    mf.icons[0].src = icon192; mf.icons[1].src = icon512;
     const mfBlob = new Blob([JSON.stringify(mf)], {type:'application/manifest+json'});
     const mfUrl = URL.createObjectURL(mfBlob);
     document.getElementById('mfLink').href = mfUrl;
 
-    // ========= App logic (same as V2: cookies + sharing + confetti) =========
+    // ========= Cookies =========
     function setCookie(n,v,d){ const e=new Date(Date.now()+d*864e5).toUTCString(); document.cookie=`${n}=${encodeURIComponent(v)};expires=${e};path=/;SameSite=Lax`; }
     function getCookie(n){ const m=document.cookie.match(new RegExp('(?:^|; )'+n.replace(/([.$?*|{}()\[\]\\\/\+^])/g,'\\$1')+'=([^;]*)')); return m?decodeURIComponent(m[1]):null; }
     function delCookie(n){ document.cookie=n+'=; Max-Age=-1; path=/;'; }
 
-    const P='dcl_destiny_bingo_'; const C_NAME=P+'name', C_ORDER=P+'order', C_CLICKS=P+'clicks', C_SOLVED=P+'solvedAt', C_LISTHASH=P+'listHash';
+    // ========= Elements =========
+    const P='dcl_destiny_bingo_';
     const boardEl=document.getElementById('board'), whoEl=document.getElementById('who'), completedEl=document.getElementById('completed'), shareOut=document.getElementById('shareOut');
+    const titleEl=document.getElementById('titleText');
+	const crestEl=document.getElementById('crestImg');
+    //const badgeEl=document.getElementById('badge');
+    const switchWrap=document.getElementById('switchWrap');
+    const cardSwitch=document.getElementById('cardSwitch');
+    const forgetBtn=document.getElementById('forgetBtn');
 
+    // ========= Player name (global) =========
+    const C_NAME=P+'name';
     let playerName=getCookie(C_NAME); if(!playerName){ playerName=(prompt('Who are you?')||'').trim(); if(playerName) setCookie(C_NAME,playerName,3650);} whoEl.textContent=playerName?`Player: ${playerName}`:'';
 
+    // ========= Utils =========
     function getParam(k){ return new URL(location.href).searchParams.get(k); }
     function b64D(s){ if(!s) return ''; s=s.replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4) s+='='; try{return decodeURIComponent(escape(atob(s)));}catch(e){ try{return atob(s);}catch(e2){return '';} } }
     function b64E(s){ try{return btoa(unescape(encodeURIComponent(s)));}catch(e){return btoa(s);} }
     function hash(s){ let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0;} return ''+h; }
+    function keyify(title, subtitle){
+      const raw = `${String(title||'').trim()}__${String(subtitle||'').trim()}`.toLowerCase();
+      return raw.replace(/\s+/g,'_').replace(/[^a-z0-9_\-\.]/g,'');
+    }
 
-    const size=5, total=25, center=12; const dataParam=getParam('data'), orderParam=getParam('order');
-    const raw=b64D(dataParam||''); const list=raw?raw.split(';').map(s=>s.trim()).filter(Boolean):[]; const listHash=list.length?hash(list.join(';')):'';
+    // ========= Parse URL data: expects base64 of {title, subtitle, card} =========
+    const size=5, total=25, center=12;
+    const dataParam=getParam('data');
+    let decoded = dataParam ? b64D(dataParam) : '';
+
+    let cardObj = null;
+    try{ const parsed = JSON.parse(decoded); if(parsed && typeof parsed==='object' && !Array.isArray(parsed)) cardObj = parsed; }catch{}
+
+    if(!cardObj){
+      alert('Please use a valid bingo card link" }');
+      cardObj = { crest:'./images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
+    }
+
+    const CARD_KEY = keyify(cardObj.title, cardObj.subtitle);
+
+    // ========= Per-card cookie names =========
+    const C_PREFIX = P + CARD_KEY + '_';
+    const C_ORDER=C_PREFIX+'order';
+    const C_CLICKS=C_PREFIX+'clicks';
+    const C_SOLVED=C_PREFIX+'solvedAt';
+    const C_LISTHASH=C_PREFIX+'listHash';
+    const C_ORIG=C_PREFIX+'origData'; // store original ?data b64 for this card only
+
+    // Save the FULL original parameter for this specific card key
+    if(dataParam){ setCookie(C_ORIG, dataParam, 3650); }
+
+    // ========= Build dropdown of all saved origData cookies =========
+    function discoverCards(){
+      const cookies = document.cookie.split(';').map(s=>s.trim());
+      const entries = [];
+      for(const c of cookies){
+        const idx = c.indexOf('=');
+        if(idx === -1) continue;
+        const name = decodeURIComponent(c.slice(0, idx));
+        const val = decodeURIComponent(c.slice(idx+1));
+        if(!name.startsWith(P) || !name.endsWith('_origData')) continue;
+        const b64 = val;
+        const json = b64D(b64);
+        try{
+          const obj = JSON.parse(json);
+          if(obj && typeof obj==='object' && !Array.isArray(obj)){
+            const k = keyify(obj.title, obj.subtitle);
+            //const label = `${obj.title||'Untitled'} — ${obj.subtitle||'Bingo'}`;
+			const label = `${obj.subtitle||'Bingo'}`;
+            entries.push({key:k, label, b64});
+          }
+        }catch{ /* ignore bad entries */ }
+      }
+      // sort by label for stability
+      entries.sort((a,b)=>a.label.localeCompare(b.label));
+      return entries;
+    }
+
+    function renderSwitch(){
+      const items = discoverCards();
+      if(!items.length){ switchWrap.hidden = true; return; }
+      switchWrap.hidden = false;
+      cardSwitch.innerHTML = '';
+      for(const it of items){
+        const o = document.createElement('option');
+        o.value = it.b64;
+        o.textContent = it.label;
+        if(it.key === CARD_KEY) o.selected = true;
+        cardSwitch.appendChild(o);
+      }
+      cardSwitch.onchange = ()=>{
+        const sel = cardSwitch.value;
+        const u = new URL(location.href);
+        u.searchParams.delete('order');
+        u.searchParams.set('data', sel);
+        location.href = u.toString();
+      };
+    }
+
+    function forgetCurrentCard(){
+      if(!confirm('Are you sure you want to forget this Bingo Card?')) return;
+      delCookie(C_ORDER); delCookie(C_CLICKS); delCookie(C_SOLVED); delCookie(C_LISTHASH); delCookie(C_ORIG);
+      // After deletion, if there are other cards, jump to the first one; else strip params
+      const items = discoverCards();
+      if(items.length){
+        const u = new URL(location.href);
+        u.searchParams.delete('order');
+        u.searchParams.set('data', items[0].b64);
+        location.href = u.toString();
+      } else {
+        const u = new URL(location.href);
+        u.searchParams.delete('order');
+        u.searchParams.delete('data');
+        location.href = u.toString();
+      }
+    }
+
+    forgetBtn.addEventListener('click', forgetCurrentCard);
+
+    // Normalize card
+    function normalizeCard(obj){
+		console.log(obj);
+      const title = (obj && obj.title) ? String(obj.title) : 'Destiny Team Bingo';
+      const subtitle = (obj && obj.subtitle) ? String(obj.subtitle) : 'Bingo';
+	  const crest = (obj && obj.crest) ? String(obj.crest) : 'logo.png';
+      const cardStr = (obj && obj.card) ? String(obj.card) : '';
+      const values = cardStr.split(';').map(s=>s.trim()).filter(Boolean);
+      return { crest, title, subtitle, values };
+    }
+
+    const selectedCard = normalizeCard(cardObj);
+
+    // Render header
+    function renderHeader(){
+		console.log(selectedCard);
+      titleEl.textContent = selectedCard.title;
+	  crestEl.src = selectedCard.crest;
+      //badgeEl.textContent = selectedCard.subtitle;
+      renderSwitch();
+    }
+
+    // Build list/hash based on selectedCard
+    const list = selectedCard.values;
+    const listHash=list.length?hash(list.join(';')):'';
 
     function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]];} return a; }
 
-    function buildOrder(){ if(orderParam){ try{ const arr=JSON.parse(b64D(orderParam)); if(Array.isArray(arr)&&arr.length===total){ setCookie(C_ORDER,JSON.stringify(arr),3650); setCookie(C_LISTHASH,'orderParam',3650); return arr; } }catch{} }
-      const sh=getCookie(C_LISTHASH), so=getCookie(C_ORDER); if(so && (sh===listHash||sh==='orderParam')){ try{ const o=JSON.parse(so); if(Array.isArray(o)&&o.length===total) return o; }catch{} }
+    // Build / persist order based on list — **per card key**
+    //const total=25, center=12;
+    function buildOrder(){
+      const orderParam=getParam('order');
+      if(orderParam){ try{ const arr=JSON.parse(b64D(orderParam)); if(Array.isArray(arr)&&arr.length===total){ setCookie(C_ORDER,JSON.stringify(arr),3650); setCookie(C_LISTHASH,'orderParam',3650); return arr; } }catch{}
+      }
+      const sh=getCookie(C_LISTHASH), so=getCookie(C_ORDER);
+      if(so && (sh===listHash||sh==='orderParam')){ try{ const o=JSON.parse(so); if(Array.isArray(o)&&o.length===total) return o; }catch{}
+      }
       let pool=list.slice(); while(pool.length<24) pool.push(''); pool=shuffle(pool).slice(0,24);
       const ord=new Array(total).fill(null); let k=0; for(let i=0;i<total;i++){ ord[i]= i===center? 'FREE SPACE' : (pool[k++]||''); }
-      setCookie(C_ORDER,JSON.stringify(ord),3650); setCookie(C_LISTHASH,listHash||'generated',3650); return ord; }
+      setCookie(C_ORDER,JSON.stringify(ord),3650); setCookie(C_LISTHASH,listHash||'generated',3650); return ord;
+    }
 
     let order=buildOrder();
+
     function getClicks(){ const r=getCookie(C_CLICKS); if(r){ try{ const a=JSON.parse(r); if(Array.isArray(a)&&a.length===total) return a; }catch{} } const a=new Array(total).fill(false); a[center]=true; return a; }
     let clicks=getClicks(); function saveClicks(){ setCookie(C_CLICKS,JSON.stringify(clicks),3650); }
 
     function render(){ boardEl.innerHTML=''; for(let i=0;i<total;i++){ const el=document.createElement('button'); el.className='cell'+(i===center?' free':'')+(clicks[i]?' selected':''); el.setAttribute('role','gridcell'); el.setAttribute('aria-pressed',clicks[i]?'true':'false'); el.innerHTML=(order[i]||'\u200b'); if(i!==center){ el.addEventListener('click',()=>{ clicks[i]=!clicks[i]; saveClicks(); el.classList.toggle('selected'); el.setAttribute('aria-pressed',clicks[i]?'true':'false'); checkBingo(); }); } boardEl.appendChild(el);} clicks[center]=true; saveClicks(); checkBingo(true); }
 
-    // confetti
+    // ========= confetti =========
     const cnv=document.getElementById('confetti'), cx=cnv.getContext('2d'); function rs(){ cnv.width=innerWidth; cnv.height=innerHeight; } addEventListener('resize',rs); rs(); let active=false,p=[],t0=0; function celebrate(){ active=true; cnv.style.display='block'; p=[]; const cs=['#fff','#caa034','#1e3a8a','#7a2f2f']; for(let i=0;i<1000;i++) p.push({x:Math.random()*cnv.width,y:-10-Math.random()*cnv.height*0.5,w:6+Math.random()*6,h:2+Math.random()*4,s:1+Math.random()*2.5,a:Math.random()*6.28,c:cs[(Math.random()*cs.length)|0]}); t0=performance.now(); requestAnimationFrame(step); }
     function step(ts){ if(!active) return; const dt=ts-t0; cx.clearRect(0,0,cnv.width,cnv.height); for(const q of p){ q.y+=q.s*2; q.x+=Math.sin((q.y+q.a)/20)*0.9; cx.save(); cx.translate(q.x,q.y); cx.rotate((q.y+q.a)/25); cx.fillStyle=q.c; cx.fillRect(-q.w/2,-q.h/2,q.w,q.h); cx.restore(); } if(dt<4200) requestAnimationFrame(step); else { active=false; cnv.style.display='none'; } }
 
-    function checkBingo(initial){ const lines=[]; for(let r=0;r<size;r++) lines.push([0,1,2,3,4].map(c=>r*size+c)); for(let c=0;c<size;c++) lines.push([0,1,2,3,4].map(r=>r*size+c)); lines.push([0,6,12,18,24],[4,8,12,16,20]); let solved=false; for(const L of lines){ if(L.every(i=>clicks[i])){ solved=true; break; } } let solvedAt=getCookie(C_SOLVED); if(solved && !solvedAt){ solvedAt=new Date().toISOString(); setCookie(C_SOLVED,solvedAt,3650); celebrate(); if('vibrate' in navigator){ try{ navigator.vibrate([40,30,40]); }catch{} } } if(solvedAt){ try{ completedEl.textContent=`Completed: ${new Date(solvedAt).toLocaleString()}`; }catch{ completedEl.textContent=`Completed: ${solvedAt}`; } } else if(!initial){ completedEl.textContent=''; } }
+    function checkBingo(initial){ const lines=[]; for(let r=0;r<5;r++) lines.push([0,1,2,3,4].map(c=>r*5+c)); for(let c=0;c<5;c++) lines.push([0,1,2,3,4].map(r=>r*5+c)); lines.push([0,6,12,18,24],[4,8,12,16,20]); let solved=false; for(const L of lines){ if(L.every(i=>clicks[i])){ solved=true; break; } } let solvedAt=getCookie(C_SOLVED); if(solved && !solvedAt){ solvedAt=new Date().toISOString(); setCookie(C_SOLVED,solvedAt,3650); celebrate(); if('vibrate' in navigator){ try{ navigator.vibrate([40,30,40]); }catch{} } }
+      // UI reflection of completion
+      if(solvedAt){ try{ completedEl.textContent=`Completed: ${new Date(solvedAt).toLocaleString()}`; }catch{ completedEl.textContent=`Completed: ${solvedAt}`; }
+        // show forget button only when completed
+        forgetBtn.hidden = false;
+      } else if(!initial){ completedEl.textContent=''; forgetBtn.hidden = true; }
+    }
 
+    // Share link: keep existing behaviour (share current randomized order)
     function shareUrl(){ const b64=b64E(JSON.stringify(order)); const u=new URL(location.href); u.searchParams.set('order',b64); return u.toString(); }
-    document.getElementById('copyBtn').onclick=async()=>{ const l=shareUrl(); try{ await navigator.clipboard.writeText(l); alert('Link copied to clipboard!'); shareOut.textContent='Link copied to clipboard!'; }catch{ document.getElementById('shareBtn').click(); } };
-    document.getElementById('resetBtn').onclick=()=>{ clicks=new Array(total).fill(false); clicks[center]=true; saveClicks(); delCookie(C_SOLVED); completedEl.textContent=''; render(); };
+	document.getElementById('shareBtn').onclick=async()=>{ const l=shareUrl(); try{ await navigator.clipboard.writeText(l); alert('Link copied to clipboard!'); shareOut.textContent='Link copied to clipboard!'; }catch{ shareOut.textContent=l; } };
+    document.getElementById('resetBtn').onclick=()=>{ if(!confirm('Are you sure you want to reset?')){return;} clicks=new Array(total).fill(false); clicks[center]=true; saveClicks(); delCookie(C_SOLVED); completedEl.textContent=''; forgetBtn.hidden = true; render(); };
 
-    if(!list.length && !getCookie(C_ORDER) && !orderParam){ alert('Add your semicolon-separated list (base64) via ?data=... in the URL.'); }
+    // initial header & board render
+    renderHeader();
     render();
 
-    // ========= TRUE PWA: register a real sw.js (Blob/data URLs are not allowed) =========
+    // ========= TRUE PWA: register a real sw.js =========
     if('serviceWorker' in navigator){
-      // scope './' works whether you host as /index.html or /bingo.html
       navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(()=>{});
     }
   })();
