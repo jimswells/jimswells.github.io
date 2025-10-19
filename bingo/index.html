@@ -44,7 +44,7 @@
 
   <header>
     <div class="logoWrap">
-      <img class="crest" id="crestImg" src="./images/destiny.png" />
+      <img class="crest" id="crestImg" src="../images/destiny.png" />
       <div class="titleBlock">
         <div class="titleText" id="titleText">Bingo</div>
         <div class="switchWrap" id="switchWrap" hidden>
@@ -128,7 +128,7 @@
 
     if(!cardObj){
       alert('Please use a valid bingo card link" }');
-      cardObj = { crest:'./images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
+      cardObj = { crest:'../images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
     }
 
     const CARD_KEY = keyify(cardObj.title, cardObj.subtitle);
