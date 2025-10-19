@@ -8,8 +8,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Team Bingo</title>
   <link rel="manifest" href="../manifest.webmanifest" id="mfLink">
-  <link rel="apple-touch-icon" href="../images/icon.png" />
-  <link rel="icon" href="../images/icon.png" />
+  <link rel="apple-touch-icon" href="./images/icon.png" />
+  <link rel="icon" href="./images/icon.png" />
   <style>
     :root{ --bg:#212151; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#000; --muted:#9ca3af }
     html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
@@ -40,11 +40,12 @@
   </style>
 </head>
 <body>
+<main>
   <canvas id="confetti"></canvas>
 
   <header>
     <div class="logoWrap">
-      <img class="crest" id="crestImg" src="../images/destiny.png" />
+      <img class="crest" id="crestImg" src="./images/destiny.png" />
       <div class="titleBlock">
         <div class="titleText" id="titleText">Bingo</div>
         <div class="switchWrap" id="switchWrap" hidden>
@@ -56,11 +57,12 @@
     <div class="completed" id="completed"></div>
   </header>
 
-  <main>
+  
     <section class="board" id="board" aria-label="Bingo Board" role="grid"></section>
     <div class="controls">
-      <button class="btn" id="resetBtn">Reset board</button>
-      <button class="btn" id="shareBtn">Share This Board</button>
+      <button class="btn" id="resetBtn">Reset card</button>
+      <button class="btn" id="shareBtn">Share This card</button>
+	  <button class="btn" id="newBtn">Create a new card</button>
 	  <button class="btn forgetBtn" id="forgetBtn" title="Forget this completed card" hidden>Forget card!</button>
     </div>
     <div class="shareWrap"><span id="shareOut"></span></div>
@@ -95,7 +97,7 @@
     function delCookie(n){ document.cookie=n+'=; Max-Age=-1; path=/;'; }
 
     // ========= Elements =========
-    const P='dcl_destiny_bingo_';
+    const P='bingo_';
     const boardEl=document.getElementById('board'), whoEl=document.getElementById('who'), completedEl=document.getElementById('completed'), shareOut=document.getElementById('shareOut');
     const titleEl=document.getElementById('titleText');
 	const crestEl=document.getElementById('crestImg');
@@ -128,7 +130,7 @@
 
     if(!cardObj){
       alert('Please use a valid bingo card link" }');
-      cardObj = { crest:'../images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
+      cardObj = { crest:'./images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
     }
 
     const CARD_KEY = keyify(cardObj.title, cardObj.subtitle);
@@ -277,6 +279,7 @@
     function shareUrl(){ const b64=b64E(JSON.stringify(order)); const u=new URL(location.href); u.searchParams.set('order',b64); return u.toString(); }
 	document.getElementById('shareBtn').onclick=async()=>{ const l=shareUrl(); try{ await navigator.clipboard.writeText(l); alert('Link copied to clipboard!'); shareOut.textContent='Link copied to clipboard!'; }catch{ shareOut.textContent=l; } };
     document.getElementById('resetBtn').onclick=()=>{ if(!confirm('Are you sure you want to reset?')){return;} clicks=new Array(total).fill(false); clicks[center]=true; saveClicks(); delCookie(C_SOLVED); completedEl.textContent=''; forgetBtn.hidden = true; render(); };
+	document.getElementById('newBtn').onclick=()=>{ window.location.href = window.location.origin+'/bingo/create'; };
 
     // initial header & board render
     renderHeader();

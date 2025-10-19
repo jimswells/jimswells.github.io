@@ -1,13 +1,13 @@
 {
-  "name": "Team Bingo",
+  "name": "DCL Team Bingo",
   "short_name": "Bingo",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#0b0b0f",
-  "theme_color": "#0b0b0f",
+  "background_color": "#212151",
+  "theme_color": "#f9ae43",
   "icons": [
     { "src": "./images/dcl.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "./images/destiny.png", "sizes": "192x192", "type": "image/png" }
+    { "src": "./images/destiny.png", "sizes": "192x192", "type": "image/png" },
 	{ "src": "./images/icon.png", "sizes": "192x192", "type": "image/png" }
   ]
 }
