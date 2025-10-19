@@ -185,7 +185,7 @@
       const payload = { crest: crestSel.value || '', title, subtitle, card };
       const b64 = b64E(JSON.stringify(payload));
 
-      const u = new URL(location.origin + location.pathname.replace(/[^\/]*$/, 'index.html'));
+      const u = new URL(location.origin + location.pathname.replace('create/', ''));
       u.searchParams.set('data', b64);
       out.innerHTML = `Share URL:<br><a href="${u.toString()}" target="_blank">${u.toString()}</a>`;
 
