@@ -182,7 +182,7 @@
       if(vals.length > COUNT) vals.length = COUNT;
 
       const card = vals.join(';');
-      const payload = { crest: crestSel.value || '', title, subtitle, card };
+      const payload = { crest: crestSel.value.replace('.','') || '', title, subtitle, card };
       const b64 = b64E(JSON.stringify(payload));
 
       const u = new URL(location.origin + location.pathname.replace('create/', ''));
