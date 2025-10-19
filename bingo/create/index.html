@@ -187,7 +187,7 @@
 
       const u = new URL(location.origin + location.pathname.replace('create/', ''));
       u.searchParams.set('data', b64);
-      out.innerHTML = `Share URL:<br><a href="${u.toString()}" target="_blank">${u.toString()}</a>`;
+      out.innerHTML = `Share URL:<br><a href="${u.toString()}" target="new">${u.toString()}</a>`;
 
       // also copy to clipboard
 	  try{
