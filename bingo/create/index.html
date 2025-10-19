@@ -14,7 +14,7 @@
     .titleBlock{display:flex;flex-direction:column;align-items:center}
     .titleText{font-weight:900;letter-spacing:.6px;font-size:clamp(24px,6.5vw,42px);line-height:1.05;text-transform:uppercase}
     .badge{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em;background:transparent;text-transform:uppercase}
-    .row{width:100%;max-width:980px;box-sizing:border-box;padding:8px 16px 22px}
+    .row{width:100%;max-width:980px;box-sizing:border-box;padding:8px 16px 5px}
     .panel{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
     .grid{display:grid;gap:12px}
     .grid.cols2{grid-template-columns:1fr 1fr}
@@ -59,15 +59,14 @@
             <option value="../images/dcl.png">Dcl</option>
           </select>
         </div>
-        <div class="grid cols2" style="margin-top:12px">
+        <div class="grid cols1" style="margin-top:12px">
           <div>
-            <label for="title">Title <span class="help">(max 20)</span></label>
-            <input id="title" type="text" maxlength="25" placeholder="Destiny Team Bingo" />
+            <label for="title">Title <span class="help">(max 15)</span></label>
+            <input id="title" type="text" maxlength="15" placeholder="Destiny Team Bingo" />
           </div>
-		  </br>
           <div>
-            <label for="subtitle">Subtitle / Team / Theme <span class="help">(max 20)</span></label>
-            <input id="subtitle" type="text" maxlength="25" placeholder="Heroes vs Villains" />
+            <label for="subtitle">Bingo card name / Team / Theme <span class="help">(max 30)</span></label>
+            <input id="subtitle" type="text" maxlength="30" placeholder="Heroes vs Villains" />
           </div>
         </div>
       </div>
