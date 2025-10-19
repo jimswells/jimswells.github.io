@@ -51,6 +51,7 @@
   <section class="row">
   
       <div class="panel">
+	  <label>Choose a logo</label>
         <div class="preview">
 		<div class="crestPreview" id="crestPrev">—</div>
           <select id="crest" class="badgeSel" aria-label="Crest image">
@@ -73,7 +74,7 @@
 	  </section>
 <section class="row">
       <div class="panel">
-        <label>Suggestions</label>
+        <label>Suggestions - Use team names or something like these</label>
         <div class="suggest" id="suggest"></div>
         <p class="help" style="margin-top:8px">Click a pill to append to the next empty slot. Each entry allows up to 40 characters. You need 24 items total.</p>
       </div>
@@ -107,11 +108,11 @@
 
     // Simple suggestions — tweak as you like
     const SUGGESTIONS = [
-      'Hidden Mickey', 'Meet a character', 'Sail‑away party', 'Pin trade', 'Trivia win', 'Ride AquaMouse',
-      'Try a new dessert', 'Watch fireworks', 'Late‑night pizza', 'Find the ship horn', 'Scavenger clue',
-      'Crew member high‑five', 'Photo with porthole', 'Find a secret menu', 'Deck 4 jog', 'Sunrise selfie',
-      'Movie popcorn', 'Castaway Cay bike', 'Mini‑golf round', 'Shuffleboard match', 'Character conga',
-      'Solve a puzzle', 'Karaoke song', 'Dine & dash (not literally)', 'Team huddle'
+      'Ice cream', 'Selfie with a character', 'Watch funnel vision', 'Talk about work', 'Ride AquaMouse',
+      'Room service', 'Watch fireworks', 'Play air hockey', 'Drink before noon',
+      'Crew Member high five', 'Photo in porthole', 'Buy some merch', 'Watch a stage show', 'Sunrise selfie',
+      'Visit the Cast & Cannon', 'Visit the Sanctum', 'Visit Cove cafe', 'Visit the Huanted Mansion', 'Shuffleboard match', 'Visit Edna À La Mode Sweets',
+      'Watch diaper dash', 'Family crafts', 'Learn to Draw', 'Music trivia', 'Movie trivia'
     ];
 
     function b64E(s){ try{return btoa(unescape(encodeURIComponent(s)));}catch(e){return btoa(s);} }
