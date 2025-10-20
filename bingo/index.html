@@ -12,7 +12,8 @@
   <link rel="icon" href="./images/icon.png" />
   <style>
     :root{ --bg:#212151; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#000; --muted:#9ca3af }
-    html,body{height:100%} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
+    html,body{height:100%} body{margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
+	a { color:var(--gold);}
     header{margin-top: 5px;width:100%;max-width:860px;padding:30px 16px 8px;box-sizing:border-box;text-align:center}
     .logoWrap{display:flex;align-items:center;justify-content:center;gap:10px}
     .crest{width:55px;margin-top: -45px;}
@@ -34,9 +35,11 @@
     .btn{border:1px solid #374151;background:var(--btn);color:#e5e7eb;padding:10px 14px;border-radius:10px;font-weight:800;letter-spacing:.2px}
     .btn:active{transform:translateY(1px)} .shareWrap{margin-top:8px;text-align:center;color:var(--muted);font-size:.9rem}
 	.forgetBtn{color:red;}
-    .shareLink{word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;color:#e5e7eb}
+    .shareLink{word-break:break-all;font-family:Arial,ui-monospace,Menlo,Consolas,monospace;color:#e5e7eb}
     #confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;display:none}
     @media (max-width:420px){.board{gap:5px}.cell{padding:4px;border-radius:8px}}
+	.noBingoFirstVisit { width: 95%;height: 100%;background-color: var(--bg);vertical-align: middle;font-size: xxx-large;text-align:center;}
+	.hidden { display:none;}
   </style>
 </head>
 <body>
@@ -56,8 +59,8 @@
     <div class="who" id="who"></div>
     <div class="completed" id="completed"></div>
   </header>
-
-  
+	<div id="noBingo" class="noBingoFirstVisit" style="display:none">This might be your first visit.</br><a href="/bingo/create" target="new">create a bingo card here</a> or get a link to an exisitng one.</div>
+	<div id="yesBingo" style="display:none">
     <section class="board" id="board" aria-label="Bingo Board" role="grid"></section>
     <div class="controls">
       <button class="btn" id="resetBtn">Reset card</button>
@@ -66,6 +69,7 @@
 	  <button class="btn forgetBtn" id="forgetBtn" title="Forget this completed card" hidden>Forget card!</button>
     </div>
     <div class="shareWrap"><span id="shareOut"></span></div>
+	</div>
   </main>
 
   <script id="manifest" type="application/manifest+json">
@@ -129,8 +133,8 @@
     try{ const parsed = JSON.parse(decoded); if(parsed && typeof parsed==='object' && !Array.isArray(parsed)) cardObj = parsed; }catch{}
 
     if(!cardObj){
-      alert('Please use a valid bingo card link" }');
-      cardObj = { crest:'./images/dcl.png', title:'Destiny Team Bingo', subtitle:'Bingo', card:'' };
+      //alert('Please use a valid bingo card link" }');
+      cardObj = { crest:'./images/icon.png', title:'Team Bingo', subtitle:'', card:'' };
     }
 
     const CARD_KEY = keyify(cardObj.title, cardObj.subtitle);
@@ -282,6 +286,24 @@
 	document.getElementById('newBtn').onclick=()=>{ window.location.href = window.location.origin+'/bingo/create'; };
 
     // initial header & board render
+	if (!dataParam)
+	{
+		var topCard = discoverCards()[0];
+		if (topCard)
+		{ 
+			console.log('Top Card',topCard);
+			location.href = '?data='+topCard.b64; }
+		else
+		{
+			document.getElementById('noBingo').style.display = '';
+			console.log('New visit, no bingo cards');
+		}
+		
+	}
+	else
+	{
+		document.getElementById('yesBingo').style.display = '';
+	}
     renderHeader();
     render();
 
