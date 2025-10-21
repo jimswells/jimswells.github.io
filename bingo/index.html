@@ -15,11 +15,11 @@
     html,body{height:100%} body{margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
 	a { color:var(--gold);}
     header{margin-top: 5px;width:100%;max-width:860px;padding:30px 16px 8px;box-sizing:border-box;text-align:center}
-    .logoWrap{display:flex;align-items:center;justify-content:center;gap:10px}
-    .crest{width:55px;margin-top: -45px;}
+    .logoWrap{align-items:center;justify-content:center;gap:10px}
+    .crest{width: 140px;position: absolute;margin-left: -25px;z-index: -1000;}
     .titleBlock{display:flex;flex-direction:column;align-items:center}
-    .titleText{font-weight:900;letter-spacing:.6px;font-size:clamp(25px,7vw,45px);line-height:1.05;text-transform:uppercase}
-    .badge{margin-left: -45px;display:inline-block;margin-top:12px;padding:5px 10px 4px 10px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em;background:transparent}
+    .titleText{text-shadow: -5px 5px 5px black;font-weight:900;letter-spacing:.6px;font-size:clamp(25px,7vw,45px);line-height:1.05;text-transform:uppercase}
+    .badge{display:inline-block;margin-top:12px;padding:5px 10px 4px 10px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-weight:700;font-size:.85em;letter-spacing:.08em;background:transparent}
 	.badge:focus {outline: none;box-shadow: 0 0 0 2px var(--gold);}
 	.badge option {background: var(--bg);}
     .switchWrap{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
@@ -45,11 +45,12 @@
 <body>
 <main>
   <canvas id="confetti"></canvas>
-
+  <img class="crest" id="crestImg" src="./images/destiny.png" onerror="this.style.display='none'" />
   <header>
     <div class="logoWrap">
-      <img class="crest" id="crestImg" src="./images/destiny.png" />
+      
       <div class="titleBlock">
+		
         <div class="titleText" id="titleText">Bingo</div>
         <div class="switchWrap" id="switchWrap" hidden>
           <select class="badge" id="cardSwitch" aria-label="Switch saved Bingo card"></select>
@@ -134,7 +135,7 @@
 
     if(!cardObj){
       //alert('Please use a valid bingo card link" }');
-      cardObj = { crest:'./images/icon.png', title:'Team Bingo', subtitle:'', card:'' };
+      cardObj = { crest:'./images/none.png', title:'Team Bingo', subtitle:'', card:'' };
     }
 
     const CARD_KEY = keyify(cardObj.title, cardObj.subtitle);
