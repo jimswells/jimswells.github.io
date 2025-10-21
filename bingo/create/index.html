@@ -9,6 +9,7 @@
   <link rel="icon" href="../images/icon.png" />
   <style>
     :root{ --bg:#212151; --card:#ffffff; --ink:#000; --gold:#f9ae43; --accent:#7a2f2f; --hero:#1e3a8a; --btn:#000; --muted:#9ca3af }
+	a { color:var(--gold); }
     html,body{height:100%} body{margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Noto Sans;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center}
     header{margin-top: 5px;width:100%;max-width:980px;padding:28px 16px 8px;box-sizing:border-box;text-align:center}
     .titleBlock{display:flex;flex-direction:column;align-items:center}
@@ -45,6 +46,7 @@
   <header>
     <div class="titleBlock">
       <div class="titleText">Bingo Builder</div>
+	  <a href="/bingo">Back to bingo cards</a>
     </div>
   </header>
 
@@ -57,6 +59,7 @@
           <select id="crest" class="badgeSel" aria-label="Crest image">
 			<option value="../images/destiny.png">Destiny</option>
             <option value="../images/dcl.png">Dcl</option>
+			<option value="../images/icon.png">Icon</option>
 			<option value="../images/none.png">None</option>
           </select>
         </div>
@@ -166,7 +169,7 @@
 
     function updateCrestPreview(){
       const v = crestSel.value;
-      crestPrev.innerHTML = v ? `<img alt="crest" src="${v}">` : '—';
+      crestPrev.innerHTML = v ? `<img alt="crest" src="${v}" onerror="this.style.display='none'">` : '—';
     }
 
     function buildLink(){
